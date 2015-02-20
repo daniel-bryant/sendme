@@ -1,0 +1,33 @@
+// Place all the styles related to the sessions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+html {
+  background: image-url("lions_den_cover.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  body {
+    background-color: transparent;
+    .main-msg {
+      width: 600px;
+      margin: 100px 0 0 100px;
+      text-align: center;
+      color: #fff;
+    }
+    .opaque-cover {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #efefef;
+      .container {
+        margin-top: 200px;
+      }
+    }
+  }
+}
