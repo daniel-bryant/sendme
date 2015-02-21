@@ -17,17 +17,22 @@ html {
       text-align: center;
       color: #fff;
     }
-    .opaque-cover {
+    .cover {
       position: absolute;
       height: 100%;
       width: 100%;
       top: 0;
       left: 0;
+    }
+    .dark-opaque {
       background-color: rgba(0, 0, 0, 0.8);
       color: #efefef;
       .container {
         margin-top: 200px;
       }
+    }
+    .light-opaque {
+      background-color: rgba(250, 250, 250, 0.97);
     }
   }
 }
