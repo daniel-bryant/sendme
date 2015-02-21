@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root 'sessions#index'
+  root   'sessions#index'
+  get    'login' => 'sessions#new'
+  post   'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
   resources :users, except: [:index, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
