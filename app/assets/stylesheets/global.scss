@@ -1,0 +1,11 @@
+.navbar-grey {
+  border-radius: 0;
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+  a {
+    color: #333;
+    &:hover, &:focus {
+      color: #333;
+    }
+  }
+}
