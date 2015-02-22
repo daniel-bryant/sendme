@@ -21,6 +21,8 @@
                     = f.text_field :title, class: 'form-control'
                   .form-group
                     = f.label :description
+                    %a{href: 'https://guides.github.com/features/mastering-markdown/', target: '_blank'}
+                      You can use markdown here
                     = f.text_area :description, class: 'form-control', rows: 12
                   %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
                     Close
