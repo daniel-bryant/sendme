@@ -7,6 +7,30 @@
           = @user.name
         %h3
           = @user.title
+        #bio-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'bio-modal-label', hidden: 'true'}}
+          .modal-dialog
+            .modal-content
+              .modal-header
+                %button.close{data: {dismiss: 'modal'}, aria: {label: 'Close'}}
+                  %span{aria: {hidden: 'true'}} &times;
+                %h4#bio-modal-label.modal-title Edit your bio
+              .modal-body
+                = form_for @user, html: {role: 'form'} do |f|
+                  .form-group
+                    = f.label :title
+                    = f.text_field :title, class: 'form-control'
+                  .form-group
+                    = f.label :description
+                    = f.text_area :description, class: 'form-control', rows: 12
+                  %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
+                    Close
+                  = f.submit 'Update', class: 'btn btn-primary'
+        %div{style: 'border-top: 1px solid #ccc'}
+          = markdown @user.description.to_s
+        %div
+          %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
+            = icon('edit')
+          &nbsp; Add/edit information about yourself
       .col-md-8
         %h2
           Documents
