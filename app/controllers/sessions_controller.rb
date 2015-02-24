@@ -1,4 +1,8 @@
 class SessionsController < ApplicationController
+  before_filter only: :index do
+    redirect_to current_user if logged_in?
+  end
+
   def index
     @user = User.new
   end
