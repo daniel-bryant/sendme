@@ -1,9 +1,9 @@
-= form_for :session, html: {role: 'form'} do |f|
+= form_for :session, url: login_path, html: {role: 'form'} do |f|
   .form-group
     = f.text_field :email, placeholder: 'Email', class: 'form-control'
   .form-group
     = f.password_field :password, placeholder: 'Password', class: 'form-control'
-  .form-group
+  .checkbox
     = f.label :remember_me, class: "checkbox inline" do
       = f.check_box :remember_me
       %span Remember me on this computer
