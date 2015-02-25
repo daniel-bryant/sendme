@@ -1,3 +1,26 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.navbar-inverse {
+  background-color: #130028;
+  border-bottom: 2px solid #101;
+}
+
+.content-wrap {
+  padding-top: 50px;
+  height: 100%;
+  .col-left {
+    height: 100%;
+    width: 30%;
+    float: left;
+    background-color: #3b2450;
+    color: #fff;
+    padding: 30px;
+  }
+  .col-main {
+    height: 100%;
+    width: 70%;
+    float: left;
+  }
+}
