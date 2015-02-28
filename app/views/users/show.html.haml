@@ -2,6 +2,7 @@
   = render 'navbar'
   .content-wrap
     .col-left
+      = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
       %h2
         = @user.name
       %h3

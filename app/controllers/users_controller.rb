@@ -26,6 +26,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    if params[:avatar_destroy]
+      @user.avatar = nil
+      @user.save
+      flash[:success] = "Avatar deleted"
+      redirect_to edit_user_path @user and return
+    end
+
     if @user.update_attributes(user_params)
       redirect_to @user
     else
@@ -35,7 +42,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email, :title, :description, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :title, :description, :password, :password_confirmation, :avatar)
     end
 
     def correct_user

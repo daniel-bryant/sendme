@@ -22,6 +22,20 @@ body, body * {
   .doc-info {
     margin: 10px 0;
     padding-left: 15px;
+    .thumb-avatar {
+      width: 75px;
+      height: 75px;
+      background-color: #3b2450;
+      border-radius: 50%;
+      -webkit-box-shadow: 0 0 2px 2px #ccc;
+      -moz-box-shadow: 0 0 2px 2px #ccc;
+      box-shadow: 0 0 2px 2px #ccc;
+      &:hover {
+        -webkit-box-shadow: 0 0 3px 3px #ccc;
+        -moz-box-shadow: 0 0 3px 3px #ccc;
+        box-shadow: 0 0 3px 3px #ccc;
+      }
+    }
     h1, h3 {
       margin-top: 0;
       font-weight: 500;

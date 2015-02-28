@@ -2,8 +2,10 @@
   #document-info-wrapper
     .float-group{style: 'width: 978px; margin: 0 auto;'}
       .doc-info.float-left{style: 'width: 40%; border-right: 1px solid #ccc;'}
-        %h3= current_user.name
-        %em.small= current_user.title
+        = link_to @document.user, class: 'float-left', style: 'margin-right: 10px;' do
+          = image_tag @document.user.avatar.url(:thumb), class: 'thumb-avatar'
+        %h3= @document.user.name
+        %em.small= @document.user.title
       .doc-info.float-left{style: 'width: 60%;'}
         %h1= @document.name
         %em#doc-saved-at.small

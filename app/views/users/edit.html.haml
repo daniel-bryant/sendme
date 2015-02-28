@@ -4,7 +4,14 @@
     .container
       .row
         .col-md-6.col-md-offset-3
+          = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
           = form_for @user, html: {role: 'form'} do |f|
+            = hidden_field_tag :avatar_destroy, '1'
+            = f.submit 'Delete avatar', class: 'btn btn-default'
+          = form_for @user, html: {role: 'form', multipart: true} do |f|
+            .form-group
+              = f.label :avatar
+              = f.file_field :avatar
             .form-group
               = f.label :name
               = f.text_field :name, class: 'form-control'
