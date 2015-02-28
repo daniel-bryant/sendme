@@ -1,11 +1,59 @@
-.navbar-grey {
-  border-radius: 0;
-  background-color: #eee;
-  border-bottom: 1px solid #ccc;
-  a {
-    color: #333;
-    &:hover, &:focus {
-      color: #333;
+html {
+  background: image-url("lions_den_cover.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  body {
+    background-color: transparent;
+    .main-msg {
+      width: 600px;
+      margin: 100px 0 0 100px;
+      text-align: center;
+      color: #fff;
+    }
+    .cover {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+    .dark-opaque {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #efefef;
+      .container {
+        margin-top: 200px;
+      }
+    }
+    .light-opaque {
+      background-color: rgba(255, 255, 255, 0.98);
     }
   }
+}
+
+a {
+  color: #333;
+  &:hover, &:focus {
+    color: #333;
+    text-decoration: none;
+  }
+}
+
+.form-seperator {
+  border-top: 1px solid #efefef;
+  margin-top: 20px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* ---------- Floats ---------- */
+.float-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.float-left {
+  float: left;
 }

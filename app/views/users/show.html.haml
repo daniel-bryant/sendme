@@ -26,12 +26,25 @@
                 %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
                   Close
                 = f.submit 'Update', class: 'btn btn-primary'
-      %div{style: 'border-top: 1px solid #ccc'}
+      %div
         = markdown @user.description.to_s
       %div
         %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
           = icon('edit')
-        &nbsp; Add/edit information about yourself
+          edit info
     .col-main
-      %h2
-        Documents
+      .panel.panel-default
+        .panel-heading
+          %h2
+            Documents
+          = form_for current_user.documents.build, html: {class: 'pull-right', role: 'form'} do |f|
+            = f.submit 'New Document', class: 'btn btn-primary'
+        %table.table.table-hover
+          - @user.documents.each do |d|
+            %tr
+              %td
+                = link_to d.name, edit_document_path(d)
+              %td.doc-time{data: {time: (d.updated_at.to_i * 1000)}}
+              %td
+                = link_to d, method: :delete, data: {confirm: "Are you sure? This can not be undone."} do
+                  = icon('trash')

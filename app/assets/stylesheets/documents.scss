@@ -1,0 +1,162 @@
+// Place all the styles related to the documents controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:700,400italic,400,500);
+@import url(http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic);
+
+body {
+  margin: 0;
+}
+
+body, body * {
+  box-sizing: border-box;
+}
+
+#document-info {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  .doc-info {
+    margin: 10px 0;
+    padding-left: 15px;
+    h1, h3 {
+      margin-top: 0;
+      font-weight: 500;
+    }
+    h1 {
+      margin-bottom: 0;
+    }
+    h3 {
+      margin-bottom: 5px;
+    }
+    .small {
+      font-size: 14px;
+    }
+  }
+}
+
+#document-editor-toolbar {
+  background-color: #eee;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+
+.toolbar-wrapper {
+  width: 816px;
+  margin: 0 auto;
+}
+
+.editor-group {
+  display: inline-block;
+  border-left: 1px solid #cccccc;
+  padding: 4px;
+}
+
+button.editor-select-button {
+  background: transparent;
+  border: transparent;
+  height: 28px;
+  border-radius: 2px;
+  font-size: 16px;
+  span {
+    display: inline-block;
+    min-width: 56px;
+    font-size: 14px;
+  }
+}
+
+button.editor-button {
+  background: transparent;
+  border: transparent;
+  height: 28px;
+  width: 28px;
+  border-radius: 2px;
+  font-size: 16px;
+}
+
+select.editor-select {
+  background: transparent;
+  height: 28px;
+  border: none;
+}
+
+input.editor-checkbox {
+  display: none;
+}
+
+input.editor-checkbox + label {
+  display: inline-block;
+  text-align: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+}
+
+input.editor-checkbox + label:hover,
+select.editor-select:hover, button.editor-button:hover {
+  -moz-box-shadow:    0 0 1px 1px #ccc;
+  -webkit-box-shadow: 0 0 1px 1px #ccc;
+  box-shadow:         0 0 1px 1px #ccc;
+}
+
+input.editor-checkbox + label:active, button.editor-button:active {
+  -moz-box-shadow:    inset 0 0 3px #aaa;
+  -webkit-box-shadow: inset 0 0 3px #aaa;
+  box-shadow:         inset 0 0 3px #aaa;
+}
+
+input.editor-checkbox + label .fa {
+  margin-top: 5px;
+}
+
+input.editor-checkbox:checked + label {
+  background-color: #ddd;
+  -moz-box-shadow:    inset 0 0 3px #aaa;
+  -webkit-box-shadow: inset 0 0 3px #aaa;
+  box-shadow:         inset 0 0 3px #aaa;
+}
+
+#cursor {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@-webkit-keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Dropdowns ---------- */
+.dropdown {
+  position: relative;
+}
+ul.dropdown-list {
+  position: absolute;
+  background-color: white;
+  margin: 0;
+  padding: 5px 0px;
+  border: 1px solid #eee;
+  -moz-box-shadow:    0 2px 2px 2px #ccc;
+  -webkit-box-shadow: 0 2px 2px 2px #ccc;
+  box-shadow:         0 2px 2px 2px #ccc;
+  z-index: 10;
+  display: none;
+  li {
+    list-style-type: none;
+    padding: 5px 20px;
+    min-width: 56px;
+    box-sizing: content-box;
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}
