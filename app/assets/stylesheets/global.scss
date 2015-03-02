@@ -1,11 +1,13 @@
+html, body {
+  height: 100%;
+}
 a {
-  color: #eee;
+  color: #222;
   &:hover, &:focus {
-    color: #fff;
+    color: #111;
     text-decoration: none;
   }
 }
-
 /* ---------- Flash Box ---------- */
 #flash-box {
   position: absolute;
@@ -99,6 +101,13 @@ a {
   color: white;
   .fa-stack {
     font-size: 36px; /* g+ and linked in icons */
+  }
+  a {
+    color: #eee;
+    &:hover, &:focus {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 }
 #group1 {

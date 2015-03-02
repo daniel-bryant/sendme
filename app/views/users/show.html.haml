@@ -6,32 +6,12 @@
       = @user.name
     %h3
       = @user.title
-    #bio-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'bio-modal-label', hidden: 'true'}}
-      .modal-dialog
-        .modal-content
-          .modal-header
-            %button.close{data: {dismiss: 'modal'}, aria: {label: 'Close'}}
-              %span{aria: {hidden: 'true'}} &times;
-            %h4#bio-modal-label.modal-title Edit your bio
-          .modal-body
-            = form_for @user, html: {role: 'form'} do |f|
-              .form-group
-                = f.label :title
-                = f.text_field :title, class: 'form-control'
-              .form-group
-                = f.label :description
-                %a{href: 'https://guides.github.com/features/mastering-markdown/', target: '_blank'}
-                  You can use markdown here
-                = f.text_area :description, class: 'form-control', rows: 12
-              %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
-                Close
-              = f.submit 'Update', class: 'btn btn-primary'
-    %div
+    .markdown
       = markdown @user.description.to_s
     %div
-      %button.btn.btn-default{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
+      %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
         = icon('edit')
-        edit info
+        Edit info
   .col-main
     .panel.panel-default
       .panel-heading
@@ -48,3 +28,20 @@
             %td
               = link_to d, method: :delete, data: {confirm: "Are you sure? This can not be undone."} do
                 = icon('trash')
+#bio-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'bio-modal-label', hidden: 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{data: {dismiss: 'modal'}, aria: {label: 'Close'}}
+          %span{aria: {hidden: 'true'}} &times;
+        %h4#bio-modal-label.modal-title Give an overview of yourself or your work
+      .modal-body
+        = form_for @user, html: {role: 'form'} do |f|
+          .form-group
+            %a{href: 'https://guides.github.com/features/mastering-markdown/', target: '_blank'}
+              You can use markdown here
+              = icon('external-link-square')
+            = f.text_area :description, class: 'form-control', rows: 12
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
+            Close
+          = f.submit 'Update', class: 'btn btn-primary'
