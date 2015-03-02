@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   root   'sessions#index'
-  get    'login' => 'sessions#new'
-  post   'login' => 'sessions#create'
+  get    'login'  => 'sessions#new'
+  post   'login'  => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
-  resources :users, except: [:index, :destroy]
+  get    'signup' => 'users#new'
+  resources :users, except: [:index, :new, :destroy]
   resources :documents, only: [:show, :create, :edit, :update, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
