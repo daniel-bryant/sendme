@@ -6,6 +6,20 @@ a {
   }
 }
 
+/* ---------- Flash Box ---------- */
+#flash-box {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  padding: 30px 60px;
+  background-color: #222;
+  -webkit-box-shadow: 0 0 2px 2px #222;
+  -moz-box-shadow: 0 0 2px 2px #222;
+  box-shadow: 0 0 2px 2px #222;
+  color: white;
+  border-radius: 10px;
+}
+
 /* ---------- Floats ---------- */
 .float-group:after {
   content: "";

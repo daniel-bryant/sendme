@@ -8,4 +8,9 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
+    - if flash.any?
+      #flash-box
+        - flash.each do |message_type, message|
+          %div
+            = message
     = yield
