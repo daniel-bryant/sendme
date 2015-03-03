@@ -1,5 +1,7 @@
 #document-info
   #document-info-wrapper
+    = link_to root_path, id: 'home-bars' do
+      = icon('bars', '', class: 'fa-inverse')
     .float-group{style: 'width: 978px; margin: 0 auto;'}
       .doc-info.float-left{style: 'width: 40%; border-right: 1px solid #ccc;'}
         = link_to @document.user, class: 'float-left', style: 'margin-right: 10px;' do

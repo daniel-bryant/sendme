@@ -19,6 +19,18 @@ body, body * {
   width: 100%;
   background-color: #fff;
   font-family: 'Ubuntu', sans-serif;
+  #document-info-wrapper {
+    position: relative;
+    #home-bars {
+      position: absolute;
+      height: 100%;
+      padding: 22px;
+      background-color: #3b2450;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+    }
+  }
   .doc-info {
     margin: 10px 0;
     padding-left: 15px;
