@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:show, :edit, :update]
-  before_action :correct_user,   only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:show, :edit, :update, :avatar]
+  before_action :correct_user,   only: [:show, :edit, :update, :avatar]
 
   def show
     @user = User.find(params[:id])
@@ -26,18 +26,20 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if params[:avatar_destroy]
-      @user.avatar = nil
-      @user.save
-      flash[:success] = "Avatar deleted"
-      redirect_to edit_user_path @user and return
-    end
-
     if @user.update_attributes(user_params)
+      flash[:success] = "Profile updated"
       redirect_to @user
     else
       render :edit
     end
+  end
+
+  def avatar
+    @user = User.find(params[:id])
+    @user.avatar = nil
+    @user.save
+    flash[:success] = "Avatar deleted"
+    redirect_to edit_user_path @user
   end
 
   private
