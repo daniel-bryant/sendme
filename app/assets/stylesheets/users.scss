@@ -18,7 +18,7 @@
     padding: 30px;
     h2, h3, .markdown {
       font-family: 'Source Sans Pro', sans-serif;
-      color: #fff;
+      color: white;
     }
   }
   .col-main {
@@ -46,4 +46,18 @@
 }
 .delete-avatar {
   text-align: center;
+}
+
+#edit-container {
+  min-height: 100%;
+  padding: 75px 0;
+  background-color: #3b2450;
+  color: white;
+  a {
+    color: #eee;
+    &:hover, &:focus {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
 }

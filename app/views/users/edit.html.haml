@@ -1,11 +1,11 @@
 = render 'navbar'
-.content-wrap
+#edit-container
   .container
     .row
       .col-md-6.col-md-offset-3
         = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
         .delete-avatar
-          = link_to 'delete picture', avatar_user_path(@user), method: :delete
+          = link_to 'delete', avatar_user_path(@user), method: :delete, data: {confirm: 'Delete this image?'}
         = form_for @user, html: {role: 'form', multipart: true} do |f|
           .form-group
             = f.label :avatar
