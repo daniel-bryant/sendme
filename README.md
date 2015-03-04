@@ -6,14 +6,24 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+  
+Ruby 2.1.2
+
+Rails 4.1.8
 
 * System dependencies
+
+brew install imagemagick
 
 * Configuration
 
 * Database creation
 
 * Database initialization
+
+brew install postgresql
+
+rake db:setup
 
 * How to run the test suite
 
