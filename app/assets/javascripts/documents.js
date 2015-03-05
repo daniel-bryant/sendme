@@ -367,6 +367,7 @@ function update_document() {
 
   $.ajax({
     type: "PUT",
+    dataType: 'json',
     url: window.document_url,
     data: { document: { body: body } }
   })
