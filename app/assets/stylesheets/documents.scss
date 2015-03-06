@@ -145,7 +145,7 @@ input.editor-checkbox:checked + label {
   box-shadow:         inset 0 0 3px #aaa;
 }
 
-#cursor {
+.blink-1s {
   animation: blink 1s step-start 0s infinite;
   -webkit-animation: blink 1s step-start 0s infinite;
 }

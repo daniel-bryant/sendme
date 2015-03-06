@@ -68,7 +68,7 @@
           = icon('outdent')
         %button#indent-button.editor-button
           = icon('indent')
-#document-editor{style: 'background-color: #eee; padding: 30px 0; padding-top: 170px;'}
+#document-editor{style: 'background-color: #eee; padding: 30px 0; padding-top: 170px;', tabindex: '0'}
   #page1.page{style: "background-color: #fff; width: 8.5in; height: 11in; padding: 1in; margin: 30px auto; box-shadow: 0 0 4px 4px #ccc; white-space: pre-wrap; font-family: 'Arimo'"}
   #hidden-body{style: 'display: none;', data: {id: @document.id}}
     = @document.body.html_safe

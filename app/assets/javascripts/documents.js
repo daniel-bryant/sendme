@@ -10,7 +10,7 @@ $(function() {
     window.document_url = '/documents/' + $('#hidden-body').data().id;
 
     // handle keypress events (character handling)
-    $(document).keypress(function(event) {
+    $(document).on('keypress', '#document-editor', function(event) {
       switch (event.which) {
         case 13: // enter
           handle_enter_keypress();
@@ -26,7 +26,7 @@ $(function() {
     });
 
     // handle keydown
-    $(document).keydown(function(event) {
+    $(document).on('keydown', '#document-editor', function(event) {
       switch (event.which) {
         case 8: // backspace
           handle_backspace();
@@ -147,6 +147,9 @@ $(function() {
     // init document content
     $($('#hidden-body').contents()).appendTo('#page1');
     window.$cursor = $('<span id="cursor" style="width: 2px; height: 24px; margin-right: -2px; background-color: black; display: inline-block; vertical-align: middle;"></span>');
+    // cursor blink when the document is in focus
+    $('#document-editor').focusin(function() { window.$cursor.addClass('blink-1s'); });
+    $('#document-editor').focusout(function() { window.$cursor.removeClass('blink-1s'); });
 
     var $paragraphs = $('#page1 .para');
     if ($paragraphs.length) {
