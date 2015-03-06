@@ -20,16 +20,7 @@ a {
   box-shadow: 0 0 2px 2px #222;
   color: white;
   border-radius: 10px;
-}
-
-/* ---------- Floats ---------- */
-.float-group:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.float-left {
-  float: left;
+  z-index: 10;
 }
 
 /* ---------- Parallax base styles ---------- */
