@@ -3,7 +3,7 @@ $(document).on('click', '.page', function(event) {
 });
 
 
-$(function() {
+$(document).on('page:change', function() {
   if ($('#document-editor').length) {
     // set up variables needed to save documents to the api
     window.timer = null;
@@ -366,7 +366,7 @@ function update_document() {
   var $parent = window.$cursor.parent();
   window.$cursor.detach();
 
-  var body = $('#page1').html();
+  var body = $('#page1').html().trim();
 
   $.ajax({
     type: "PUT",
@@ -389,7 +389,7 @@ function update_document() {
 }
 
 /* ---------- Dropdowns ---------- */
-$(function() {
+$(document).on('page:change', function() {
   $('.drop-button').click(function() {
     var $li = $(this).next();
     $('.dropdown-list').not($li).hide();

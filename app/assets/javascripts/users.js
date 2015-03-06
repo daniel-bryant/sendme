@@ -1,4 +1,4 @@
-$(function() {
+$(document).on('page:change', function() {
   var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
   $('.doc-time').each(function() {
     var $this = $(this);
