@@ -1,0 +1,25 @@
+#document-info
+  #document-info-wrapper
+    - if logged_in?
+      = link_to root_path, id: 'home-bars' do
+        = icon('bars', '', class: 'fa-inverse')
+    .container
+      .row
+        .col-xs-4.doc-info{style: 'border-right: 1px solid #ccc;'}
+          = link_to @document.user, class: 'pull-left', style: 'margin-right: 10px;' do
+            = image_tag @document.user.avatar.url(:thumb), class: 'thumb-avatar'
+          %h3= @document.user.name
+          %em.small= @document.user.title
+        .col-xs-7.doc-info
+          %h1= @document.name
+          %em#doc-saved-at.small
+        .col-xs-1.doc-info
+          %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#share-modal'}} Share
+
+#document-editor{style: 'background-color: #eee; padding: 30px 0; padding-top: 170px;', tabindex: '0'}
+  #page1.page{style: "background-color: #fff; width: 8.5in; height: 11in; padding: 1in; margin: 30px auto; box-shadow: 0 0 4px 4px #ccc; white-space: pre-wrap; font-family: 'Arimo'"}
+  #hidden-body{style: 'display: none;', data: {id: @document.id}}
+    = @document.body.html_safe
+
+<!-- Modals -->
+= render 'share_modal'

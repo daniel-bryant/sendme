@@ -92,12 +92,4 @@
             = f.text_field :name, class: 'form-control'
           = f.submit 'Update', class: 'btn btn-primary'
           %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}} Close
-#share-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'share-label', hidden: 'true'}}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{type: 'button', data: {dismiss: 'modal'}, aria: {label: 'Close'}}
-          %span{aria: {hidden: 'true'}} &times;
-        %h4#share-label.modal-title Share document
-      .modal-body
-        Enter emails or get a shareable link
+= render 'share_modal'

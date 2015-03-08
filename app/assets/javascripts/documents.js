@@ -2,9 +2,43 @@ $(document).on('click', '.page', function(event) {
   alert("page clicked");
 });
 
+$(document).on("page:before-change", function(){
+  ZeroClipboard.destroy();
+});
 
 $(document).on('page:change', function() {
+  if ($('#share-modal').length) {
+    $('#share-link').click(function() {
+      $(this).select();
+    });
+    $('#share-clip-wrap').tooltip({container: 'body'}).on('hidden.bs.tooltip', function() {
+      $(this).attr('title', 'Copy to clipboard').tooltip('fixTitle');
+    });
+    var client = new ZeroClipboard( $("#share-clip") )
+    client.on( "ready", function( readyEvent ) {
+      client.on( "aftercopy", function( event ) {
+        $('#share-clip-wrap').attr('title', 'Copied!').tooltip('fixTitle').tooltip('show');
+      });
+    });
+  }
+
+  if ($('#document-info').length) {
+    var $doc_info = $('#document-info');
+    $(window).scroll(function() {
+      if($(this).scrollTop()) {
+        $doc_info.addClass('scroll-shadow');
+      } else {
+        $doc_info.removeClass('scroll-shadow');
+      }
+    });
+  }
+
   if ($('#document-editor').length) {
+    // init document content
+    $($('#hidden-body').contents()).appendTo('#page1');
+  }
+
+  if ($('#document-editor-toolbar').length) {
     // set up variables needed to save documents to the api
     window.timer = null;
     window.document_url = '/documents/' + $('#hidden-body').data().id;
@@ -144,8 +178,6 @@ $(document).on('page:change', function() {
       }
     });
 
-    // init document content
-    $($('#hidden-body').contents()).appendTo('#page1');
     window.$cursor = $('<span id="cursor" style="width: 2px; height: 24px; margin-right: -2px; background-color: black; display: inline-block; vertical-align: middle;"></span>');
     // cursor blink when the document is in focus
     $('#document-editor').focusin(function() { window.$cursor.addClass('blink-1s'); });

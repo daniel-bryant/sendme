@@ -186,3 +186,9 @@ ul.dropdown-list {
     }
   }
 }
+/* ---------- scroll-shadow ---------- */
+.scroll-shadow {
+  -webkit-box-shadow: 0 0 3px 3px #ccc;
+  -moz-box-shadow:    0 0 3px 3px #ccc;
+  box-shadow:         0 0 3px 3px #ccc;
+}

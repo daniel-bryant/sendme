@@ -1,0 +1,17 @@
+#share-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'share-label', hidden: 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}, aria: {label: 'Close'}}
+          %span{aria: {hidden: 'true'}} &times;
+        %h4#share-label.modal-title Share document
+      .modal-body
+        = link_to 'View published version', document_url(@document), target: '_blank'
+        %h5 Or copy this shareable link
+        .input-group
+          %input#share-link.form-control{value: document_url(@document), readonly: true}
+          %span#share-clip-wrap.input-group-btn{data: {toggle: 'tooltip', placement: 'top'},
+            title: 'Copy to clipboard'}
+            %button#share-clip.btn.btn-default{type: 'button',
+              data: {clipboard: {text: 'error copying link', target: 'share-link'}}}
+              = icon('link')

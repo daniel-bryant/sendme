@@ -2,6 +2,10 @@ class DocumentsController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update, :destroy, :create]
   before_action :correct_user,   only: [:edit, :update, :destroy]
 
+  def show
+    @document = Document.find(params[:id])
+  end
+
   def create
     document = current_user.documents.create(name: "Document #{current_user.documents.count + 1}", body: "")
     redirect_to edit_document_path document
