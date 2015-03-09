@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Resume Builder
+    = wicked_pdf_javascript_include_tag 'jquery'
+    = wicked_pdf_javascript_include_tag 'init_document'
+    = csrf_meta_tags
+
+  %body{onload: 'init_document()'}
+    = yield

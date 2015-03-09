@@ -5,14 +5,16 @@
         = image_tag @document.user.avatar.url(:thumb), class: 'thumb-avatar'
       %h3= @document.user.name
       %em.small= @document.user.title
-    .col-xs-7.doc-info
+    .col-xs-6.doc-info
       %h1
         - if edit_modal
           %a{href: '#', data: {toggle: 'modal', target: '#name-edit-modal'}}= @document.name
         - else
           = @document.name
       %em#doc-saved-at.small
-    .col-xs-1.doc-info
+    .col-xs-2.doc-info
+      = link_to document_path(@document, format: :pdf), class: 'btn btn-primary' do
+        = icon('print')
       %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#share-modal'}}
         Share
 

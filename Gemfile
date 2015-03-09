@@ -39,6 +39,8 @@ gem 'bcrypt', '~> 3.1.10'
 gem 'redcarpet', '~> 3.2.2'
 gem "paperclip", "~> 4.2"
 gem 'zeroclipboard-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -4,6 +4,13 @@ class DocumentsController < ApplicationController
 
   def show
     @document = Document.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: @document.name, layout: 'pdf.html', page_size: 'Letter',
+          margin: {top: 0, bottom: 0, left: 0, right: 0}, disable_javascript: false
+      end
+    end
   end
 
   def create

@@ -34,8 +34,7 @@ $(document).on('page:change', function() {
   }
 
   if ($('#document-editor').length) {
-    // init document content
-    $($('#hidden-body').contents()).appendTo('#page1');
+    init_document();
   }
 
   if ($('#document-editor-toolbar').length) {
