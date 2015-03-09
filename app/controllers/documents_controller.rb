@@ -7,8 +7,12 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: @document.name, layout: 'pdf.html', page_size: 'Letter',
-          margin: {top: 0, bottom: 0, left: 0, right: 0}, disable_javascript: false
+        render pdf: @document.name.parameterize.underscore,
+          layout: 'pdf.html',
+          page_size: 'Letter',
+          disposition: 'attachment',
+          margin: {top: 0, bottom: 0, left: 0, right: 0},
+          disable_javascript: false
       end
     end
   end
@@ -24,10 +28,16 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update_attributes(document_params)
-        format.html { flash[:success] = 'Document updated' and redirect_to edit_document_path(@document) }
+        format.html do
+          flash[:success] = 'Document updated'
+          redirect_to edit_document_path(@document)
+        end
         format.json { head :no_content, status: :ok }
       else
-        format.html { flash[:danger] = @document.errors.to_a.join(". ") and redirect_to edit_document_path(@document) }
+        format.html do
+          flash[:danger] = @document.errors.to_a.join(". ")
+          redirect_to edit_document_path(@document)
+        end
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
