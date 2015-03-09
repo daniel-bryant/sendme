@@ -1,3 +1,7 @@
+$(document).on('page:change', function() {
+  $('.bottom-tooltip').tooltip({placement: 'bottom'});
+});
+
 // convert Date to string and return in the format "12:34 pm"
 function date_to_time_str(date) {
   var hours = date.getHours();

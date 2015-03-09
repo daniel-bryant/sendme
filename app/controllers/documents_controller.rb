@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       if @document.update_attributes(document_params)
         format.html do
-          flash[:success] = 'Document updated'
+          flash[:success] = 'Document name updated'
           redirect_to edit_document_path(@document)
         end
         format.json { head :no_content, status: :ok }

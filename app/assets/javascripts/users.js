@@ -15,6 +15,4 @@ $(document).on('page:change', function() {
       $this.html(monthNames[doc_date.getMonth()] + ' ' + doc_date.getDate() + ', ' + doc_date.getFullYear());
     }
   });
-
-  $('.nav-tooltip').tooltip({placement: 'bottom'});
 });

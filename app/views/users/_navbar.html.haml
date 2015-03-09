@@ -3,9 +3,9 @@
     %ul.nav.navbar-nav.navbar-right
       %li
         = link_to current_user.name, current_user
-      %li.nav-tooltip{data: {toggle: 'tooltip'}, title: 'Account'}
+      %li.bottom-tooltip{title: 'Account'}
         = link_to edit_user_path current_user do
           = icon('cog', '', class: 'fa-lg')
-      %li.nav-tooltip{data: {toggle: 'tooltip'}, title: 'Sign out'}
+      %li.bottom-tooltip{title: 'Sign out'}
         = link_to logout_path, method: :delete do
           = icon('sign-out', '', class: 'fa-lg')

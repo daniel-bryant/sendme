@@ -13,7 +13,7 @@
           = @document.name
       %em#doc-saved-at.small
     .col-xs-2.doc-info
-      = link_to document_path(@document, format: :pdf), class: 'btn btn-primary' do
+      = link_to document_path(@document, format: :pdf), class: 'btn btn-primary bottom-tooltip', title: 'Print to pdf' do
         = icon('print')
       %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#share-modal'}}
         Share
