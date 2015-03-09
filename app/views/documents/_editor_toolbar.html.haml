@@ -1,0 +1,56 @@
+#document-editor-toolbar
+  .toolbar-wrapper
+    .editor-group
+      %button#print-button.editor-button
+        = icon('print')
+    .editor-group.dropdown#font-select
+      %button.editor-select-button.drop-button{data: {dropid: '#font-select'}}
+        %span 8
+        = icon('caret-down')
+      %ul.dropdown-list
+        - [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96].each do |font_size|
+          %li= font_size
+    .editor-group
+      %input#bold-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'bold-checkbox'}
+        = icon('bold', '', class: 'strong')
+      %input#italic-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'italic-checkbox'}
+        = icon('italic')
+      %input#underline-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'underline-checkbox'}
+        = icon('underline')
+      %input#strike-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'strike-checkbox'}
+        = icon('strikethrough')
+    .editor-group
+      %input#left-checkbox.editor-checkbox{type: 'radio', name: 'align', value: 'left'}
+      %label{for: 'left-checkbox'}
+        = icon('align-left')
+      %input#center-checkbox.editor-checkbox{type: 'radio', name: 'align', value: 'center'}
+      %label{for: 'center-checkbox'}
+        = icon('align-center')
+      %input#right-checkbox.editor-checkbox{type: 'radio', name: 'align', value: 'right'}
+      %label{for: 'right-checkbox'}
+        = icon('align-right')
+      %input#justify-checkbox.editor-checkbox{type: 'radio', name: 'align', value: 'justify'}
+      %label{for: 'justify-checkbox'}
+        = icon('align-justify')
+    .editor-group.dropdown#spacing-select
+      %button.editor-select-button.drop-button{data: {dropid: '#spacing-select'}}
+        %span Single
+        = icon('caret-down')
+      %ul.dropdown-list
+        - ['Single', '1.15', '1.5', 'Double'].each do |spacing|
+          %li= spacing
+    .editor-group
+      %input#ol-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'ol-checkbox'}
+        = icon('list-ol')
+      %input#ul-checkbox.editor-checkbox{type: 'checkbox'}
+      %label{for: 'ul-checkbox'}
+        = icon('list-ul')
+      %button#outdent-button.editor-button
+        = icon('outdent')
+      %button#indent-button.editor-button
+        = icon('indent')
