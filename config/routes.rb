@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     delete 'avatar', on: :member
   end
   resources :documents, only: [:show, :create, :edit, :update, :destroy]
+  resources :activations, only: [:edit]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

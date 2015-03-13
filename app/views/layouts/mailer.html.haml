@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    :css
+      .content {
+        padding: 30px;
+        max-width: 750px;
+        -moz-box-shadow:    0 0 2px 2px #ccc;
+        -webkit-box-shadow: 0 0 2px 2px #ccc;
+        box-shadow:         0 0 2px 2px #ccc;
+      }
+  %body
+    .content
+      = yield
