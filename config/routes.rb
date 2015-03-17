@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   resources :users, except: [:index, :new, :destroy] do
     delete 'avatar', on: :member
   end
-  resources :documents, only: [:show, :create, :edit, :update, :destroy]
-  resources :activations, only: [:edit]
+  resources :documents,       only: [:show, :create, :edit, :update, :destroy]
+  resources :activations,     only: [:edit]
+  resources :password_resets, only: [:new, :create, :edit, :update]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
