@@ -2,9 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:700,400italic,400,500);
-@import url(http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic);
-
 body {
   margin: 0;
 }
@@ -18,7 +15,7 @@ body, body * {
   top: 0;
   width: 100%;
   background-color: #fff;
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   #document-info-wrapper {
     position: relative;
     #home-bars {
