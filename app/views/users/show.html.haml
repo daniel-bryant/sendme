@@ -37,8 +37,11 @@
       .modal-body
         = form_for @user, html: {role: 'form'} do |f|
           .form-group
+            = f.label :description, 'Overview'
+            \-
             %a{href: 'https://guides.github.com/features/mastering-markdown/', target: '_blank'}
               You can use markdown here
+              = icon('external-link')
             = f.text_area :description, class: 'form-control', rows: 12
           = f.submit 'Update', class: 'btn btn-primary'
           %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}} Close

@@ -169,7 +169,7 @@ a {
   }
 }
 
-/* ----------  vertical-center ---------- */
+/* ---------- vertical-center ---------- */
 .vertical-center {
   min-height: 100%;
   min-height: 100vh;
@@ -177,4 +177,9 @@ a {
   align-items: center;
   background-color: #3b2450;
   color: white;
+}
+
+/* ---------- bootstrap overrides ---------- */
+.modal-content, .form-control {
+  border-radius: 2px;
 }

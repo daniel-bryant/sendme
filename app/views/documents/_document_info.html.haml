@@ -45,7 +45,9 @@
             %span{aria: {hidden: 'true'}} &times;
           %h4#share-label.modal-title Share document
         .modal-body
-          = link_to 'View published version', document_url(@document), target: '_blank'
+          = link_to document_url(@document), target: '_blank' do
+            View published version
+            = icon('external-link')
           %h5 Or copy this shareable link
           .input-group
             %input#share-link.form-control{value: document_url(@document), readonly: true}

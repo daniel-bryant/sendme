@@ -11,7 +11,7 @@
   width: 30%;
   float: left;
   background-color: #3b2450;
-  padding: 80px 30px;
+  padding: 75px 30px;
   h2, h3, .markdown {
     font-family: 'Source Sans Pro', sans-serif;
     color: white;
@@ -46,4 +46,11 @@
 
 #edit-container {
   padding: 75px 0;
+}
+
+/* ---------- bootstrap overrides ---------- */
+.panel {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
 }
