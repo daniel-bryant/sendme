@@ -6,31 +6,28 @@
   background-color: #090909;
 }
 
-.content-wrap {
-  height: 100%;
-  padding-top: 50px;
-  .col-left {
-    height: 100%;
-    width: 30%;
-    float: left;
-    background-color: #3b2450;
-    padding: 30px;
-    h2, h3, .markdown {
-      font-family: 'Source Sans Pro', sans-serif;
-      color: white;
-    }
+.col-left {
+  min-height: 100%;
+  width: 30%;
+  float: left;
+  background-color: #3b2450;
+  padding: 80px 30px;
+  h2, h3, .markdown {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
   }
-  .col-main {
-    height: 100%;
-    width: 70%;
-    float: left;
-    .panel-heading {
-      h2 {
-        display: inline-block;
-      }
-      .btn {
-        margin-top: 20px;
-      }
+}
+.col-main {
+  height: 100%;
+  width: 70%;
+  padding-top: 50px;
+  float: left;
+  .panel-heading {
+    h2 {
+      display: inline-block;
+    }
+    .btn {
+      margin-top: 20px;
     }
   }
 }

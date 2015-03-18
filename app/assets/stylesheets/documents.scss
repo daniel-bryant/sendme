@@ -76,6 +76,18 @@ body, body * {
   display: inline-block;
   border-left: 1px solid #cccccc;
   padding: 4px;
+  button, label {
+    font-size: 16px;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    cursor: default;
+  }
+  label {
+    margin: 0;
+  }
 }
 
 button.editor-select-button {
@@ -83,7 +95,6 @@ button.editor-select-button {
   border: transparent;
   height: 28px;
   border-radius: 2px;
-  font-size: 16px;
   span {
     display: inline-block;
     min-width: 56px;
@@ -97,13 +108,6 @@ button.editor-button {
   height: 28px;
   width: 28px;
   border-radius: 2px;
-  font-size: 16px;
-}
-
-select.editor-select {
-  background: transparent;
-  height: 28px;
-  border: none;
 }
 
 input.editor-checkbox {
@@ -118,14 +122,13 @@ input.editor-checkbox + label {
   border-radius: 2px;
 }
 
-input.editor-checkbox + label:hover,
-select.editor-select:hover, button.editor-button:hover {
+input.editor-checkbox + label:hover, button.editor-select-button:hover, button.editor-button:hover {
   -moz-box-shadow:    0 0 1px 1px #ccc;
   -webkit-box-shadow: 0 0 1px 1px #ccc;
   box-shadow:         0 0 1px 1px #ccc;
 }
 
-input.editor-checkbox + label:active, button.editor-button:active {
+input.editor-checkbox + label:active, button.editor-select-button:active, button.editor-button:active {
   -moz-box-shadow:    inset 0 0 3px #aaa;
   -webkit-box-shadow: inset 0 0 3px #aaa;
   box-shadow:         inset 0 0 3px #aaa;

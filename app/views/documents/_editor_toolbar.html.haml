@@ -3,6 +3,13 @@
     .editor-group
       %button#print-button.editor-button
         = icon('print')
+    .editor-group.dropdown#font-fam-select
+      %button.editor-select-button.drop-button{data: {dropid: '#font-fam-select'}}
+        %span Arial
+        = icon('caret-down')
+      %ul.dropdown-list
+        - ['Arial', 'Calibri'].each do |font_fam|
+          %li= font_fam
     .editor-group.dropdown#font-select
       %button.editor-select-button.drop-button{data: {dropid: '#font-select'}}
         %span 8

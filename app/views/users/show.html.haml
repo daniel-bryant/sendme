@@ -1,33 +1,32 @@
 = render 'navbar'
-.content-wrap
-  .col-left
-    = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
-    %h2
-      = @user.name
-    %h3
-      = @user.title
-    .markdown
-      = markdown @user.description.to_s
-    %div
-      %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
-        = icon('edit')
-        Edit info
-  .col-main
-    .panel.panel-default
-      .panel-heading
-        %h2
-          Documents
-        = form_for current_user.documents.build, html: {class: 'pull-right', role: 'form'} do |f|
-          = f.submit 'New Document', class: 'btn btn-primary'
-      %table.table.table-hover
-        - @user.documents.each do |d|
-          %tr
-            %td
-              = link_to d.name, edit_document_path(d)
-            %td.doc-time{data: {time: (d.updated_at.to_i * 1000)}}
-            %td
-              = link_to d, method: :delete, data: {confirm: "Are you sure? This can not be undone."} do
-                = icon('trash')
+.col-left
+  = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
+  %h2
+    = @user.name
+  %h3
+    = @user.title
+  .markdown
+    = markdown @user.description.to_s
+  %div
+    %button.btn.btn-primary{type: 'button', data: {toggle: 'modal', target: '#bio-modal'}}
+      = icon('edit')
+      Edit info
+.col-main
+  .panel.panel-default
+    .panel-heading
+      %h2
+        Documents
+      = form_for current_user.documents.build, html: {class: 'pull-right', role: 'form'} do |f|
+        = f.submit 'New Document', class: 'btn btn-primary'
+    %table.table.table-hover
+      - @user.documents.each do |d|
+        %tr
+          %td
+            = link_to d.name, edit_document_path(d)
+          %td.doc-time{data: {time: (d.updated_at.to_i * 1000)}}
+          %td
+            = link_to d, method: :delete, data: {confirm: "Are you sure? This can not be undone."} do
+              = icon('trash')
 #bio-modal.modal.fade{tabindex: '-1', role: 'dialog', aria: {labelledby: 'bio-modal-label', hidden: 'true'}}
   .modal-dialog
     .modal-content
