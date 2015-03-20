@@ -92,9 +92,14 @@ $(document).on('page:change', function() {
       }
     });
 
+    // font family select
+    $('#font-fam-select li').click(function() {
+      $('#font-fam-select button span').html($(this).html());
+    });
+
     // font select
-    $('#font-select li').click(function() {
-      $('#font-select button span').html($(this).html());
+    $('#font-size-select li').click(function() {
+      $('#font-size-select button span').html($(this).html());
     });
 
     // text-align
@@ -227,11 +232,12 @@ function handle_enter_keypress() {
 }
 
 function make_format_obj() {
-  var size = $('#font-select button span').html() + 'px';
+  var font = $('#font-fam-select button span').html();
+  var size = $('#font-size-select button span').html() + 'px';
   var weight = $('#bold-checkbox')[0].checked ? 'bold' : 'normal';
   var style = $('#italic-checkbox')[0].checked ? 'italic' : 'normal';
   var deco = $('#underline-checkbox')[0].checked ? 'underline' : 'none';
-  return {'font-size': size, 'font-weight': weight, 'font-style': style, 'text-decoration': deco};
+  return {'font-family': font, 'font-size': size, 'font-weight': weight, 'font-style': style, 'text-decoration': deco};
 }
 
 function handle_backspace() {
@@ -343,10 +349,14 @@ function set_cursor_vals() {
 }
 
 function set_cursor_with_tag($tag) {
+  // font-family
+  var font_family = $tag.css('font-family').replace(/^'|'$/g, '');
+  $('#font-fam-select button span').html(font_family);
+
   // font-size
   var font_size = $tag.css('font-size');
   window.$cursor.height(font_size);
-  $('#font-select button span').html(font_size);
+  $('#font-size-select button span').html(font_size);
 
   // font-weight
   if ($tag.css('font-weight') == 'bold') {

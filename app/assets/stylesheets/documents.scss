@@ -186,6 +186,9 @@ ul.dropdown-list {
     }
   }
 }
+#font-fam-select {
+  span, li { min-width: 112px; }
+}
 /* ---------- scroll-shadow ---------- */
 .scroll-shadow {
   -webkit-box-shadow: 0 0 3px 3px #ccc;

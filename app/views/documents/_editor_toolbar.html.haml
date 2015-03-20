@@ -8,10 +8,11 @@
         %span Arial
         = icon('caret-down')
       %ul.dropdown-list
-        - ['Arial', 'Calibri'].each do |font_fam|
-          %li= font_fam
-    .editor-group.dropdown#font-select
-      %button.editor-select-button.drop-button{data: {dropid: '#font-select'}}
+        - ['Arial', 'Comic Sans MS', 'Courier New', 'Georgia',
+          'Impact', 'Times New Roman', 'Trebuchet MS', 'Verdana'].each do |font_fam|
+          %li{style: "font-family: '#{font_fam}';"}= font_fam
+    .editor-group.dropdown#font-size-select
+      %button.editor-select-button.drop-button{data: {dropid: '#font-size-select'}}
         %span 8
         = icon('caret-down')
       %ul.dropdown-list

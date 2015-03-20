@@ -13,11 +13,17 @@
  *= require_self
  */
 
+/* gems */
 // font-awesome
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+/* local */
+// editor fonts
+@import "fonts";
+// global styles
 @import "global";
+// scoped styles
 @import "activations";
 @import "documents";
 @import "sessions";
