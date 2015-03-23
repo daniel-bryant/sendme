@@ -1,5 +1,13 @@
-$(document).on('click', '.page', function(event) {
-  alert("page clicked");
+$(document).on('click', '.para span', function(event) {
+  var $char = $(this);
+  var $next = $char.next();
+  // if the click is on the right hand side && there is a char next to this one && it is on the same line
+  if (event.pageX > ($char.offset().left + $char.width()/2) && $next.length && $next.position().top == $char.position().top) {
+    $char = $next;
+  }
+  window.$cursor.removeClass('cursor blink-1s');
+  $char.addClass('cursor blink-1s');
+  window.$cursor = $char;
 });
 
 $(document).on("page:before-change", function(){
@@ -63,28 +71,28 @@ $(document).on('page:change', function() {
       switch (event.which) {
         case 8: // backspace
           handle_backspace();
-          set_cursor_vals();
+          set_format_vals();
           save_changes();
           event.preventDefault();
           break;
         case 37: // left
           move_cursor_left();
-          set_cursor_vals();
+          set_format_vals();
           event.preventDefault();
           break;
         case 38: // up
           move_cursor_up();
-          set_cursor_vals();
+          set_format_vals();
           event.preventDefault();
           break;
         case 39: // right
           move_cursor_right();
-          set_cursor_vals();
+          set_format_vals();
           event.preventDefault();
           break;
         case 40: // down
           move_cursor_down();
-          set_cursor_vals();
+          set_format_vals();
           event.preventDefault();
           break;
         default:
@@ -182,21 +190,24 @@ $(document).on('page:change', function() {
       }
     });
 
-    window.$cursor = $('<span id="cursor" style="width: 2px; height: 24px; margin-right: -2px; background-color: black; display: inline-block; vertical-align: middle;"></span>');
+    var $paragraphs = $('#page1 .para');
+    if ($paragraphs.length) {
+      window.$cursor = $paragraphs.first().contents().first();
+      window.$cursor.addClass('cursor');
+    } else {
+      var $new_para = $('<div class="para" style="text-align:left;"></div>');
+      var $nbsp_char = $('<span class="nbsp-char" style="font-family:Arimo;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
+      $('#page1').prepend($new_para);
+      $new_para.prepend($nbsp_char);
+      window.$cursor = $nbsp_char;
+      window.$cursor.addClass('cursor');
+    }
+
     // cursor blink when the document is in focus
     $('#document-editor').focusin(function() { window.$cursor.addClass('blink-1s'); });
     $('#document-editor').focusout(function() { window.$cursor.removeClass('blink-1s'); });
 
-    var $paragraphs = $('#page1 .para');
-    if ($paragraphs.length) {
-      $paragraphs.first().prepend(window.$cursor);
-    } else {
-      var $new_para = $('<div class="para" style="font-size: 24px; min-height:24px; font-weight:normal; font-style:normal; text-decoration:none; text-align:left;"></div>');
-      $('#page1').prepend($new_para);
-      $new_para.prepend(window.$cursor);
-    }
-
-    set_cursor_vals();
+    set_format_vals();
   }
 });
 
@@ -206,27 +217,31 @@ function handle_enter_keypress() {
   // if the user presses "Enter" while in an empty list item
   if ($parent[0].tagName == "LI" && $parent.contents().length == 1) {
     // create a normal paragraph div
-    var $new_para = $("<div />").css($parent.css(['text-align', 'min-height'])).append($parent.contents());
+    var $new_para = $("<div />").css($parent.css(['text-align'])).append($parent.contents());
     var pl = $parent.prev().length;
     var nl = $parent.next().length;
     if (pl && nl) {
       // we are in the middle of a list, can't exit the list here
       $parent.after($new_para);
     } else if (pl) {
-      // we are at the end of a list, exit the ul/ol and place before
+      // we are at the end of a list, exit the ul/ol and place after
       $parent.parent().after($new_para);
     } else if (nl) {
-      // we are at the beginning of a list, exit the ul/ol and place after
+      // we are at the beginning of a list, exit the ul/ol and place before
       $parent.parent().before($new_para);
+    } else {
+      // list is completely empty, append div after and remove the entire list
+      $parent.parent().after($new_para).remove();
     }
-    $parent.remove();
+    $parent.remove(); // remove current LI
     $('#ol-checkbox')[0].checked = false;
     $('#ul-checkbox')[0].checked = false;
   } else {
     // create a copy of the current div and append the new div after the current
     var $clone = $parent.clone().empty();
+    var $nbsp_char = $parent.children('.nbsp-char');
     $clone.append(window.$cursor.nextAll().andSelf());
-    $clone.css(make_format_obj());
+    $parent.append($nbsp_char.clone().removeClass('cursor blink-1s'));
     $parent.after($clone);
   }
 }
@@ -247,115 +262,139 @@ function handle_backspace() {
   }
 
   var $parent = window.$cursor.parent();
-  if ($parent.prev().length) {
-    $parent.prev().append($parent.contents());
+  var $parent_prev = $parent.prev();
+  if ($parent_prev.length) {
+    $parent_prev.contents().last().remove();
+    $parent_prev.append($parent.contents());
     $parent.remove();
   }
 }
 
-function move_cursor_left() {
-  // if there is a previous character, move to the left of it and return
-  if (window.$cursor.prev().length) {
-    window.$cursor.prev().before(window.$cursor);
-    return;
-  }
+function prev_char($tag) {
+  var $moveto = $tag.prev();
 
-  // if not, check if there's anything before the current (div or li) container
-  $parent = window.$cursor.parent();
-  $moveto = $parent.prev();
-  if (!($moveto.length) && $parent[0].tagName == "LI") {
-    $moveto = $parent.parent().prev();
-  }
-
-  if ($moveto.length) {
-    if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
-      $moveto = $moveto.children().last();
+  if (!($moveto.length)) {
+    var $parent = $tag.parent();
+    $moveto = $parent.prev();
+    if (!($moveto.length) && $parent[0].tagName == "LI") {
+      $moveto = $parent.parent().prev();
     }
-    $moveto.append(window.$cursor);
+
+    if ($moveto.length) {
+      if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
+        $moveto = $moveto.children().last().children().last();
+      } else {
+        $moveto = $moveto.children().last();
+      }
+    }
+  }
+  return $moveto;
+}
+
+function next_char($tag) {
+  var $moveto = $tag.next();
+
+  if (!($moveto.length)) {
+    var $parent = $tag.parent();
+    $moveto = $parent.next();
+    if (!($moveto.length) && $parent[0].tagName == "LI") {
+      $moveto = $parent.parent().next();
+    }
+
+    if ($moveto.length) {
+      if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
+        $moveto = $moveto.children().first().children().first();
+      } else {
+        $moveto = $moveto.children().first();
+      }
+    }
+  }
+  return $moveto;
+}
+
+function move_cursor_left() {
+  var $moveto = prev_char(window.$cursor);
+  if ($moveto.length) {
+    window.$cursor.removeClass('cursor blink-1s');
+    $moveto.addClass('cursor blink-1s');
+    window.$cursor = $moveto;
   }
 }
 
 function move_cursor_right() {
-  // if there a a next character, move to the right of it and return
-  if (window.$cursor.next().length) {
-    window.$cursor.next().after(window.$cursor);
-    return;
-  }
-
-  // if not, check if there's anything after the current (div or li) container
-  $parent = window.$cursor.parent();
-  $moveto = $parent.next();
-  if (!($moveto.length) && $parent[0].tagName == "LI") {
-    $moveto = $parent.parent().next();
-  }
-
+  var $moveto = next_char(window.$cursor);
   if ($moveto.length) {
-    if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
-      $moveto = $moveto.children().first();
-    }
-    $moveto.prepend(window.$cursor);
+    window.$cursor.removeClass('cursor blink-1s');
+    $moveto.addClass('cursor blink-1s');
+    window.$cursor = $moveto;
   }
 }
 
 function move_cursor_up() {
-  var $prev = window.$cursor.prev();
-  var top = window.$cursor.position().top;
-  var left = window.$cursor.position().left;
+  var $moveto = window.$cursor;
+  var topp = $moveto.position().top;
+  var left = $moveto.position().left;
+  var $prev = prev_char($moveto);
 
-  while ($prev.length) {
+  var new_top = topp;
+  while ($prev.length && !($prev.position().top + $prev.outerHeight(true) < topp)) {
     // go backwards until we find one ABOVE the cursor
-    if ($prev.position().top < top) break;
-    $prev = $prev.prev();
+    $moveto = $prev;
+    $prev = prev_char($prev);
   }
 
-  while ($prev.length) {
+  if ($prev.length) { new_top = $prev.position().top; }
+
+  while ($prev.length && !($prev.position().left <= left) && !($prev.position().top + $prev.outerHeight(true) < new_top)) {
     // go backwards until we find one to the left of the cursor
-    if ($prev.position().left <= left) break;
-    $prev = $prev.prev();
+    $moveto = $prev;
+    $prev = prev_char($prev);
   }
 
-  if ($prev.length) $prev.before(window.$cursor);
+  if ($prev.length && !($prev.position().top + $prev.outerHeight(true) < new_top)) { $moveto = $prev; }
+
+  window.$cursor.removeClass('cursor blink-1s');
+  $moveto.addClass('cursor blink-1s');
+  window.$cursor = $moveto;
 }
 
 function move_cursor_down() {
-  var $next = window.$cursor.next();
-  var top = window.$cursor.position().top;
-  var left = window.$cursor.position().left;
+  var $moveto = window.$cursor;
+  var bottom = $moveto.position().top + $moveto.outerHeight(true);
+  var left = $moveto.position().left;
+  var $next = next_char($moveto);
 
-  while ($next.length) {
-    // go backwards until we find one ABOVE the cursor
-    if ($next.position().top > top) break;
-    $next = $next.next();
+  var new_bottom = bottom;
+  while ($next.length && !($next.position().top > bottom)) {
+    // go forwards until we find one BELOW the cursor
+    $moveto = $next;
+    $next = next_char($next);
   }
 
-  while ($next.length) {
-    // go backwards until we find one to the left of the cursor
-    if ($next.position().left >= left) break;
-    $next = $next.next();
+  if ($next.length) { new_bottom = $next.position().top + $next.outerHeight(true); }
+
+  while ($next.length && !($next.position().left >= left) && !($next.position().top > new_bottom)) {
+    // go forwards until we find one to the right of the cursor
+    $moveto = $next;
+    $next = next_char($next);
   }
 
-  if ($next.length) $next.before(window.$cursor);
+  if ($next.length && !($next.position().top > new_bottom)) { $moveto = $next; }
+
+  window.$cursor.removeClass('cursor blink-1s');
+  $moveto.addClass('cursor blink-1s');
+  window.$cursor = $moveto;
 }
 
-function set_cursor_vals() {
-  var $prev, $next;
-  if ( ($prev = window.$cursor.prev()).length ) {
-    set_cursor_with_tag($prev);
-  } else if ( ($next = window.$cursor.next()).length ) {
-    set_cursor_with_tag($next);
-  } else {
-    set_cursor_with_tag(window.$cursor.parent());
-  }
-}
+function set_format_vals() {
+  var $tag = window.$cursor;
 
-function set_cursor_with_tag($tag) {
   // font-family
   var font_family = $tag.css('font-family').replace(/^'|'$/g, '');
   $('#font-fam-select button span').html(font_family);
 
   // font-size
-  var font_size = $tag.css('font-size');
-  window.$cursor.height(font_size);
+  var font_size = $tag.css('font-size').replace(/px/g, '');
   $('#font-size-select button span').html(font_size);
 
   // font-weight
@@ -379,7 +418,7 @@ function set_cursor_with_tag($tag) {
     $('#underline-checkbox')[0].checked = false;
   }
 
-  var $parent = window.$cursor.parent();
+  var $parent = $tag.parent();
 
   // text-align
   var align = $parent.css('text-align');
@@ -403,9 +442,7 @@ function save_changes() {
 }
 
 function update_document() {
-  var $prev = window.$cursor.prev();
-  var $parent = window.$cursor.parent();
-  window.$cursor.detach();
+  window.$cursor.removeClass('cursor blink-1s');
 
   var body = $('#page1').html().trim();
 
@@ -422,11 +459,7 @@ function update_document() {
       $('#doc-saved-at').html("Could not connect to server");
     });
 
-  if ($prev.length) {
-    $prev.after(window.$cursor);
-  } else {
-    $parent.prepend(window.$cursor);
-  }
+  window.$cursor.addClass('cursor blink-1s');
 }
 
 /* ---------- Dropdowns ---------- */
