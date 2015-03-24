@@ -2,14 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body {
-  margin: 0;
-}
-
-body, body * {
-  box-sizing: border-box;
-}
-
 #document-info {
   position: fixed;
   top: 0;
@@ -143,6 +135,13 @@ input.editor-checkbox:checked + label {
   -moz-box-shadow:    inset 0 0 3px #aaa;
   -webkit-box-shadow: inset 0 0 3px #aaa;
   box-shadow:         inset 0 0 3px #aaa;
+}
+
+.page {
+  margin: 30px auto;
+  white-space: pre-wrap;
+  background-color: #fff;
+  box-shadow: 0 0 4px 4px #ccc;
 }
 
 .cursor {

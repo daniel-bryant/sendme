@@ -8,6 +8,7 @@ $(document).on('click', '.para span', function(event) {
   window.$cursor.removeClass('cursor blink-1s');
   $char.addClass('cursor blink-1s');
   window.$cursor = $char;
+  set_format_vals();
 });
 
 $(document).on("page:before-change", function(){
@@ -48,7 +49,7 @@ $(document).on('page:change', function() {
   if ($('#document-editor-toolbar').length) {
     // set up variables needed to save documents to the api
     window.timer = null;
-    window.document_url = '/documents/' + $('#hidden-body').data().id;
+    window.document_url = '/documents/' + $('#page1').data().id;
 
     // handle keypress events (character handling)
     $(document).on('keypress', '#document-editor', function(event) {
@@ -100,14 +101,20 @@ $(document).on('page:change', function() {
       }
     });
 
-    // font family select
+    // font-family select
     $('#font-fam-select li').click(function() {
       $('#font-fam-select button span').html($(this).html());
     });
 
-    // font select
+    // font-size select
     $('#font-size-select li').click(function() {
       $('#font-size-select button span').html($(this).html());
+    });
+
+    // line-height select
+    $('#line-height-select li').click(function() {
+      $('#line-height-select button span').html($(this).html());
+      window.$cursor.parent().css('line-height', $(this).data().value)
     });
 
     // text-align
@@ -129,14 +136,14 @@ $(document).on('page:change', function() {
         } else {
           var $para = window.$cursor.parent();
           $para.wrapAll("<ol />");
-          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align'])) );
+          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align', 'line-height'])) );
           $para.replaceWith($para.contents());
         }
       } else {
         var $list = window.$cursor.parent().parent();
         $list.children().each(function() {
           var $this = $(this);
-          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align'])) );
+          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align', 'line-height'])) );
           $this.replaceWith($this.contents());
         });
         $list.replaceWith($list.contents());
@@ -157,14 +164,14 @@ $(document).on('page:change', function() {
         } else {
           var $para = window.$cursor.parent();
           $para.wrapAll("<ul />");
-          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align'])) );
+          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align', 'line-height'])) );
           $para.replaceWith($para.contents());
         }
       } else {
         var $list = window.$cursor.parent().parent();
         $list.children().each(function() {
           var $this = $(this);
-          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align'])) );
+          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align', 'line-height'])) );
           $this.replaceWith($this.contents());
         });
         $list.replaceWith($list.contents());
@@ -193,7 +200,7 @@ $(document).on('page:change', function() {
       window.$cursor = $paragraphs.first().contents().first();
       window.$cursor.addClass('cursor');
     } else {
-      var $new_para = $('<div class="para" style="text-align:left;"></div>');
+      var $new_para = $('<div class="para" style="text-align: left; line-height: 1;"></div>');
       var $nbsp_char = $('<span class="nbsp-char" style="font-family:Arimo;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
       $('#page1').prepend($new_para);
       $new_para.prepend($nbsp_char);
@@ -215,7 +222,7 @@ function handle_enter_keypress() {
   // if the user presses "Enter" while in an empty list item
   if ($parent[0].tagName == "LI" && $parent.contents().length == 1) {
     // create a normal paragraph div
-    var $new_para = $("<div />").css($parent.css(['text-align'])).append($parent.contents());
+    var $new_para = $("<div />").css($parent.css(['text-align', 'line-height'])).append($parent.contents());
     var pl = $parent.prev().length;
     var nl = $parent.next().length;
     if (pl && nl) {
@@ -422,6 +429,15 @@ function set_format_vals() {
   var align = $parent.css('text-align');
   $("input:radio[name ='align']").val([align]);
 
+  // line-height
+  var line_height = $parent[0].style.lineHeight;
+  if (line_height == '1') {
+    line_height = 'Single';
+  } else if (line_height == '2') {
+    line_height = 'Double';
+  }
+  $('#line-height-select button span').html(line_height);
+
   // lists
   var ol_bool = false;
   var ul_bool = false;
@@ -442,7 +458,10 @@ function save_changes() {
 function update_document() {
   window.$cursor.removeClass('cursor blink-1s');
 
-  var body = $('#page1').html().trim();
+  var body = "";
+  $('#page1').nextAll().andSelf().each(function() {
+    body += $(this).html().trim();
+  });
 
   $.ajax({
     type: "PUT",

@@ -6,6 +6,16 @@
     = wicked_pdf_javascript_include_tag 'jquery'
     = wicked_pdf_javascript_include_tag 'init_document'
     = csrf_meta_tags
+    :css
+      // replicate some bootstrap styles
+      body {
+        margin: 0;
+      }
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
 
   %body{onload: 'init_document()'}
     = yield
