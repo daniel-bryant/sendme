@@ -14,6 +14,9 @@
  */
 
 /* gems */
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
 // font-awesome
 @import "font-awesome-sprockets";
 @import "font-awesome";
