@@ -129,15 +129,14 @@ $(document).on('page:change', function() {
         } else {
           var $para = window.$cursor.parent();
           $para.wrapAll("<ol />");
-          $para.wrap("<li />");
-          $para.parent().css($para.css(['text-align', 'min-height']));
+          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align'])) );
           $para.replaceWith($para.contents());
         }
       } else {
         var $list = window.$cursor.parent().parent();
         $list.children().each(function() {
           var $this = $(this);
-          $this.wrap( $("<div />").css($this.css(['text-align', 'min-height', 'font-weight', 'font-style', 'text-decoration'])) );
+          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align'])) );
           $this.replaceWith($this.contents());
         });
         $list.replaceWith($list.contents());
@@ -158,15 +157,14 @@ $(document).on('page:change', function() {
         } else {
           var $para = window.$cursor.parent();
           $para.wrapAll("<ul />");
-          $para.wrap("<li />");
-          $para.parent().css($para.css(['text-align', 'min-height']));
+          $para.wrap( $('<li class="para"></li>').css($para.css(['text-align'])) );
           $para.replaceWith($para.contents());
         }
       } else {
         var $list = window.$cursor.parent().parent();
         $list.children().each(function() {
           var $this = $(this);
-          $this.wrap( $("<div />").css($this.css(['text-align', 'min-height', 'font-weight', 'font-style', 'text-decoration'])) );
+          $this.wrap( $('<div class="para"></div>').css($this.css(['text-align'])) );
           $this.replaceWith($this.contents());
         });
         $list.replaceWith($list.contents());
