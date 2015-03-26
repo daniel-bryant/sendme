@@ -57,6 +57,14 @@
   background-color: #eee;
   border-top: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
+  // prevent toolbar clicks from removing a selection in the document
+  // http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting/4358620#4358620
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .toolbar-wrapper {

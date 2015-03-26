@@ -103,23 +103,48 @@ $(document).on('page:change', function() {
 
     // font-family select
     $('#font-fam-select li').click(function() {
-      $('#font-fam-select button span').html($(this).html());
+      var family = $(this).html();
+      $('#font-fam-select button span').html(family);
+      format_selection('font-family', family);
     });
 
     // font-size select
     $('#font-size-select li').click(function() {
-      $('#font-size-select button span').html($(this).html());
+      var size = $(this).html();
+      $('#font-size-select button span').html(size);
+      format_selection('font-size', (size + 'px'));
+    });
+
+    // bold
+    $('#bold-checkbox').change(function() {
+      format_selection('font-weight', (this.checked ? 'bold' : 'normal'));
+    });
+
+    // italic
+    $('#italic-checkbox').change(function() {
+      format_selection('font-style', (this.checked ? 'italic' : 'normal'));
+    });
+
+    // underline
+    $('#underline-checkbox').change(function() {
+      format_selection('text-decoration', (this.checked ? 'underline' : 'none'));
+    });
+
+    // strikethrough
+    $('#strike-checkbox').change(function() {
+      console.log("REMOVE ME!");
+      //format_selection('text-decoration', (this.checked ? 'strikethrough' : 'none'));
+    });
+
+    // text-align
+    $("input[name=align]:radio").change(function () {
+      window.$cursor.parent().css('text-align', $(this).val())
     });
 
     // line-height select
     $('#line-height-select li').click(function() {
       $('#line-height-select button span').html($(this).html());
       window.$cursor.parent().css('line-height', $(this).data().value)
-    });
-
-    // text-align
-    $("input[name=align]:radio").change(function () {
-      window.$cursor.parent().css('text-align', $(this).val())
     });
 
     // ordered list
@@ -215,6 +240,23 @@ $(document).on('page:change', function() {
     set_format_vals();
   }
 });
+
+function format_selection(property, value) {
+  var selection = window.getSelection();
+  var range = selection.getRangeAt(0);
+  var common_ancestor = range.commonAncestorContainer;
+
+  // if we have a single letter selected, it will be a text node
+  if (common_ancestor.nodeType == Node.TEXT_NODE) {
+    $(common_ancestor).parent().css(property, value);
+  } else {
+    $(range.commonAncestorContainer).find("span").each(function() {
+      if (selection.containsNode(this, true)) {
+        $(this).css(property, value);
+      }
+    });
+  }
+}
 
 function handle_enter_keypress() {
   var $parent = window.$cursor.parent();
