@@ -130,12 +130,6 @@ $(document).on('page:change', function() {
       format_selection('text-decoration', (this.checked ? 'underline' : 'none'));
     });
 
-    // strikethrough
-    $('#strike-checkbox').change(function() {
-      console.log("REMOVE ME!");
-      //format_selection('text-decoration', (this.checked ? 'strikethrough' : 'none'));
-    });
-
     // text-align
     $("input[name=align]:radio").change(function () {
       window.$cursor.parent().css('text-align', $(this).val())
