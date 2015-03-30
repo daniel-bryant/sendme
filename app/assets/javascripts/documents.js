@@ -59,7 +59,7 @@ $(document).on('page:change', function() {
           break;
         default:
           var format = make_format_obj();
-          var character = $('<span>' + String.fromCharCode(event.which) + '</span>').css(format);
+          var character = $('<span class="char">' + String.fromCharCode(event.which) + '</span>').css(format);
           window.$cursor.before(character);
           window.$cursor.height(format['font-size']);
       }
@@ -321,13 +321,11 @@ function prev_char($tag) {
       $moveto = $parent.parent().prev();
     }
 
-    if ($moveto.length) {
-      if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
-        $moveto = $moveto.children().last().children().last();
-      } else {
-        $moveto = $moveto.children().last();
-      }
+    if (!($moveto.length)) {
+      $moveto = $parent.parent().prev();
     }
+
+    $moveto = $moveto.find('.char').last();
   }
   return $moveto;
 }
@@ -342,13 +340,11 @@ function next_char($tag) {
       $moveto = $parent.parent().next();
     }
 
-    if ($moveto.length) {
-      if ($moveto[0].tagName == "OL" || $moveto[0].tagName == "UL") {
-        $moveto = $moveto.children().first().children().first();
-      } else {
-        $moveto = $moveto.children().first();
-      }
+    if (!($moveto.length)) {
+      $moveto = $parent.parent().next();
     }
+
+    $moveto = $moveto.find('.char').first();
   }
   return $moveto;
 }
