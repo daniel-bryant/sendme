@@ -63,6 +63,7 @@ $(document).on('page:change', function() {
           window.$cursor.before(character);
           window.$cursor.height(format['font-size']);
       }
+      scroll_to_cursor();
       save_changes();
       event.preventDefault();
     });
@@ -73,27 +74,32 @@ $(document).on('page:change', function() {
         case 8: // backspace
           handle_backspace();
           set_format_vals();
+          scroll_to_cursor();
           save_changes();
           event.preventDefault();
           break;
         case 37: // left
           move_cursor_left();
           set_format_vals();
+          scroll_to_cursor();
           event.preventDefault();
           break;
         case 38: // up
           move_cursor_up();
           set_format_vals();
+          scroll_to_cursor();
           event.preventDefault();
           break;
         case 39: // right
           move_cursor_right();
           set_format_vals();
+          scroll_to_cursor();
           event.preventDefault();
           break;
         case 40: // down
           move_cursor_down();
           set_format_vals();
+          scroll_to_cursor();
           event.preventDefault();
           break;
         default:
@@ -509,6 +515,25 @@ function update_document() {
     });
 
   window.$cursor.addClass('cursor blink-1s');
+}
+
+function scroll_to_cursor() {
+  var $body = $('body');
+  var cursor_top = window.$cursor.offset().top;
+  var cursor_bottom = cursor_top + window.$cursor.outerHeight(true);
+  var scroll_top = $body.scrollTop();
+  var scroll_bottom = scroll_top + $body.outerHeight(true);
+
+  // adjust scrollTop if the cursor is outside of the window
+  if (cursor_bottom > scroll_bottom) {
+    $body.animate({
+      scrollTop: (scroll_top + window.$cursor.css('line-height').replace('px', '') * 2)
+    }, 200);
+  } else if (cursor_top < scroll_top) {
+    $body.animate({
+      scrollTop: (scroll_top - window.$cursor.css('line-height').replace('px', '') * 2)
+    }, 200);
+  }
 }
 
 /* ---------- Dropdowns ---------- */
