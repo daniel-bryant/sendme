@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -55,3 +56,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
+group :production do
+  gem 'puma'
+  gem 'rails_12factor'
+end
