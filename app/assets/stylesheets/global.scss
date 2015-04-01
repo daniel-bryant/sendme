@@ -115,8 +115,9 @@ a {
 }
 #group2 {
   z-index: 3;
+  .parallax__layer--base { background-color: rgba(255, 255, 255, 0.9); }
   .parallax__layer--back {
-    background: image-url("dracula_aaa.png") no-repeat center center;
+    background: image-url("matz.png") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
