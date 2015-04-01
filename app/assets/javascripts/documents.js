@@ -226,7 +226,7 @@ $(document).on('page:change', function() {
       window.$cursor.addClass('cursor');
     } else {
       var $new_para = $('<div class="para" style="text-align: left; line-height: 1;"></div>');
-      var $nbsp_char = $('<span class="nbsp-char" style="font-family:Arimo;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
+      var $nbsp_char = $('<span class="nbsp-char" style="font-family:Arial;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
       $('#page1').prepend($new_para);
       $new_para.prepend($nbsp_char);
       window.$cursor = $nbsp_char;
