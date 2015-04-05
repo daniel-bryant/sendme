@@ -1,14 +1,44 @@
-$(document).on('click', '.para span', function(event) {
+function init_cursor($char) {
+  $char.addClass('cursor');
+  window.$cursor = $char;
+  set_format_vals();
+}
+
+function set_to_cursor($char) {
+  window.$cursor.removeClass('cursor blink-1s');
+  $char.addClass('cursor blink-1s');
+  window.$cursor = $char;
+  set_format_vals();
+}
+
+$(document).on('click', '.page', function(event) {
+  if (this === event.target) {
+    var $paragraph = $(this).children().first();
+    $(this).children('.para').each(function() {
+      if ($(this).offset().top > event.pageY) return false;
+      $paragraph = $(this);
+    });
+
+    var $char = $paragraph.children('span').closestToOffset({left: event.pageX, top: event.pageY});
+    set_to_cursor($char);
+  }
+});
+
+$(document).on('click', '.page .para', function(event) {
+  if (this === event.target) {
+    var $char = $(this).children('span').closestToOffset({left: event.pageX, top: event.pageY});
+    set_to_cursor($char);
+  }
+});
+
+$(document).on('click', '.page .para span', function(event) {
   var $char = $(this);
   var $next = $char.next();
   // if the click is on the right hand side && there is a char next to this one && it is on the same line
   if (event.pageX > ($char.offset().left + $char.width()/2) && $next.length && $next.position().top == $char.position().top) {
     $char = $next;
   }
-  window.$cursor.removeClass('cursor blink-1s');
-  $char.addClass('cursor blink-1s');
-  window.$cursor = $char;
-  set_format_vals();
+  set_to_cursor($char);
 });
 
 $(document).on("page:before-change", function(){
@@ -73,32 +103,27 @@ $(document).on('page:change', function() {
       switch (event.which) {
         case 8: // backspace
           handle_backspace();
-          set_format_vals();
           scroll_to_cursor();
           save_changes();
           event.preventDefault();
           break;
         case 37: // left
           move_cursor_left();
-          set_format_vals();
           scroll_to_cursor();
           event.preventDefault();
           break;
         case 38: // up
           move_cursor_up();
-          set_format_vals();
           scroll_to_cursor();
           event.preventDefault();
           break;
         case 39: // right
           move_cursor_right();
-          set_format_vals();
           scroll_to_cursor();
           event.preventDefault();
           break;
         case 40: // down
           move_cursor_down();
-          set_format_vals();
           scroll_to_cursor();
           event.preventDefault();
           break;
@@ -222,22 +247,18 @@ $(document).on('page:change', function() {
 
     var $paragraphs = $('#page1 .para');
     if ($paragraphs.length) {
-      window.$cursor = $paragraphs.first().contents().first();
-      window.$cursor.addClass('cursor');
+      init_cursor($paragraphs.first().contents().first());
     } else {
       var $new_para = $('<div class="para" style="text-align: left; line-height: 1;"></div>');
       var $nbsp_char = $('<span class="nbsp-char" style="font-family:Arial;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
       $('#page1').prepend($new_para);
       $new_para.prepend($nbsp_char);
-      window.$cursor = $nbsp_char;
-      window.$cursor.addClass('cursor');
+      init_cursor($nbsp_char);
     }
 
     // cursor blink when the document is in focus
     $('#document-editor').focusin(function() { window.$cursor.addClass('blink-1s'); });
     $('#document-editor').focusout(function() { window.$cursor.removeClass('blink-1s'); });
-
-    set_format_vals();
   }
 });
 
@@ -356,20 +377,16 @@ function next_char($tag) {
 }
 
 function move_cursor_left() {
-  var $moveto = prev_char(window.$cursor);
-  if ($moveto.length) {
-    window.$cursor.removeClass('cursor blink-1s');
-    $moveto.addClass('cursor blink-1s');
-    window.$cursor = $moveto;
+  var $char = prev_char(window.$cursor);
+  if ($char.length) {
+    set_to_cursor($char);
   }
 }
 
 function move_cursor_right() {
-  var $moveto = next_char(window.$cursor);
-  if ($moveto.length) {
-    window.$cursor.removeClass('cursor blink-1s');
-    $moveto.addClass('cursor blink-1s');
-    window.$cursor = $moveto;
+  var $char = next_char(window.$cursor);
+  if ($char.length) {
+    set_to_cursor($char);
   }
 }
 
@@ -396,9 +413,7 @@ function move_cursor_up() {
 
   if ($prev.length && !($prev.position().top + $prev.outerHeight(true) < new_top)) { $moveto = $prev; }
 
-  window.$cursor.removeClass('cursor blink-1s');
-  $moveto.addClass('cursor blink-1s');
-  window.$cursor = $moveto;
+  set_to_cursor($moveto);
 }
 
 function move_cursor_down() {
@@ -424,9 +439,7 @@ function move_cursor_down() {
 
   if ($next.length && !($next.position().top > new_bottom)) { $moveto = $next; }
 
-  window.$cursor.removeClass('cursor blink-1s');
-  $moveto.addClass('cursor blink-1s');
-  window.$cursor = $moveto;
+  set_to_cursor($moveto);
 }
 
 function set_format_vals() {
@@ -548,4 +561,32 @@ $(document).on('page:change', function() {
   $(document).click(function() {
     $('.dropdown-list').hide();
   });
+});
+
+/* ---------- closestToOffset ---------- */
+// http://stackoverflow.com/questions/2337630/find-html-element-nearest-to-position-relative-or-absolute
+jQuery.fn.extend({
+  closestToOffset: function(offset) {
+    var el = null, elOffset, x = offset.left, y = offset.top, distance, dx, dy, minDistance;
+    this.each(function() {
+      elOffset = $(this).offset();
+
+      if ((x >= elOffset.left) && (x <= elOffset.right) && (y >= elOffset.top) && (y <= elOffset.bottom)) {
+        el = $(this);
+        return false;
+      }
+
+      var offsets = [[elOffset.left, elOffset.top], [elOffset.right, elOffset.top], [elOffset.left, elOffset.bottom], [elOffset.right, elOffset.bottom]];
+      for (off in offsets) {
+        dx = offsets[off][0] - x;
+        dy = offsets[off][1] - y;
+        distance = Math.sqrt((dx*dx) + (dy*dy));
+        if (minDistance === undefined || distance < minDistance) {
+          minDistance = distance;
+          el = $(this);
+        }
+      }
+    });
+    return el;
+  }
 });
