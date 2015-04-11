@@ -11,7 +11,20 @@ function set_to_cursor($char) {
   set_format_vals();
 }
 
-$(document).on('click', '.page', function(event) {
+$(document).on('mousedown', '#document-editor', function(event) {
+  if (this === event.target) {
+    var $paras = $(this).find('.para');
+    var $paragraph = $paras.first();
+    $paras.each(function() {
+      if ($(this).offset().top > event.pageY) return false;
+      $paragraph = $(this);
+    });
+    var $char = $paragraph.children('span').closestToOffset({left: event.pageX, top: event.pageY});
+    set_to_cursor($char);
+  }
+});
+
+$(document).on('mousedown', '.page', function(event) {
   if (this === event.target) {
     var $paragraph = $(this).children().first();
     $(this).children('.para').each(function() {
@@ -24,18 +37,20 @@ $(document).on('click', '.page', function(event) {
   }
 });
 
-$(document).on('click', '.page .para', function(event) {
+$(document).on('mousedown', '.page .para', function(event) {
   if (this === event.target) {
     var $char = $(this).children('span').closestToOffset({left: event.pageX, top: event.pageY});
     set_to_cursor($char);
   }
 });
 
-$(document).on('click', '.page .para span', function(event) {
+$(document).on('mousedown', '.page .para span', function(event) {
   var $char = $(this);
   var $next = $char.next();
-  // if the click is on the right hand side && there is a char next to this one && it is on the same line
-  if (event.pageX > ($char.offset().left + $char.width()/2) && $next.length && $next.position().top == $char.position().top) {
+  // if the click is on the right hand side
+  // && there is a char next to this one && it is on the same line
+  if (event.pageX > ($char.offset().left + $char.width()/2)
+    && $next.length && $next.position().top == $char.position().top) {
     $char = $next;
   }
   set_to_cursor($char);
