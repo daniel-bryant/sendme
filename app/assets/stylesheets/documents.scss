@@ -172,6 +172,10 @@ input.editor-checkbox:checked + label {
   100% { background: #fff; }
 }
 
+.char.selection {
+  background-color: #aaa;
+}
+
 /* ---------- Dropdowns ---------- */
 .dropdown {
   position: relative;

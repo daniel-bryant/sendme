@@ -56,3 +56,38 @@ function getSelectedChars() {
     return (element.nodeType == 1 && element.tagName.toLowerCase() == 'span');
   });
 }
+
+/* ---------- Update selection ---------- */
+// needs to be done every time an event occurs that could change the selected characters
+function update_selection() {
+  setTimeout(function() {
+    var selected_chars = getSelectedChars();
+
+    $('.selection').removeClass('selection');
+    $(selected_chars).addClass('selection');
+
+    if (selected_chars.length) {
+      window.$cursor.removeClass('cursor blink-1s');
+    } else {
+      window.$cursor.addClass('cursor blink-1s');
+    }
+  }, 0);
+}
+
+var mousedown = false;
+
+$(document).mousedown(function() {
+  mousedown = true;
+  update_selection();
+});
+
+$(document).mouseup(function() {
+  mousedown = false;
+  update_selection();
+});
+
+$(document).mousemove(function() {
+  if (mousedown) {
+    update_selection();
+  }
+});
