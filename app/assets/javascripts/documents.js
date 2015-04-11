@@ -278,20 +278,7 @@ $(document).on('page:change', function() {
 });
 
 function format_selection(property, value) {
-  var selection = window.getSelection();
-  var range = selection.getRangeAt(0);
-  var common_ancestor = range.commonAncestorContainer;
-
-  // if we have a single letter selected, it will be a text node
-  if (common_ancestor.nodeType == Node.TEXT_NODE) {
-    $(common_ancestor).parent().css(property, value);
-  } else {
-    $(range.commonAncestorContainer).find("span").each(function() {
-      if (selection.containsNode(this, true)) {
-        $(this).css(property, value);
-      }
-    });
-  }
+  $(getSelectedChars()).css(property, value);
 }
 
 function handle_enter_keypress() {
