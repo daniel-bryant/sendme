@@ -379,20 +379,28 @@ function next_char($tag) {
 }
 
 function move_cursor_left() {
-  var $char = prev_char(window.$cursor);
-  if ($char.length) {
-    set_to_cursor($char);
+  var selected_chars = getSelectedChars();
+  if (selected_chars.length) {
+    set_to_cursor($(selected_chars).first());
+    collapse_selected();
+  } else {
+    var $char = prev_char(window.$cursor);
+    if ($char.length) { set_to_cursor($char); }
   }
 }
 
 function move_cursor_right() {
-  var $char = next_char(window.$cursor);
-  if ($char.length) {
-    set_to_cursor($char);
+  var selected_chars = getSelectedChars();
+  if (selected_chars.length) {
+    set_to_cursor($(selected_chars).last());
+    collapse_selected();
   }
+  var $char = next_char(window.$cursor);
+  if ($char.length) { set_to_cursor($char); }
 }
 
 function move_cursor_up() {
+  if (getSelectedChars().length) { move_cursor_left(); }
   var $moveto = window.$cursor;
   var topp = $moveto.position().top;
   var left = $moveto.position().left;
@@ -419,6 +427,7 @@ function move_cursor_up() {
 }
 
 function move_cursor_down() {
+  if (getSelectedChars().length) { move_cursor_right(); }
   var $moveto = window.$cursor;
   var bottom = $moveto.position().top + $moveto.outerHeight(true);
   var left = $moveto.position().left;

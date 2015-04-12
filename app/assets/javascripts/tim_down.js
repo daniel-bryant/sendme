@@ -91,3 +91,14 @@ $(document).mousemove(function() {
     update_selection();
   }
 });
+
+/* ---------- Collapse selection ---------- */
+function collapse_selected() {
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    if (!sel.isCollapsed) {
+      sel.collapseToStart();
+      update_selection();
+    }
+  }
+}
