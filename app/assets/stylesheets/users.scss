@@ -6,29 +6,25 @@
   background-color: #090909;
 }
 
-.col-left {
-  min-height: 100%;
-  width: 30%;
-  float: left;
+.container-fluid, .row, .col-md-4, .col-md-8 {
+  height: 100%;
+}
+.col-md-4, .col-md-8 {
+  overflow-y: scroll;
+  padding-top: 50px;
+}
+.col-md-4 {
+  padding-bottom: 20px;
   background-color: #3b2450;
-  padding: 75px 30px;
   h2, h3, .markdown {
-    font-family: 'Source Sans Pro', sans-serif;
     color: white;
   }
 }
-.col-main {
-  height: 100%;
-  width: 70%;
-  padding-top: 50px;
-  float: left;
-  .panel-heading {
-    h2 {
-      display: inline-block;
-    }
-    .btn {
-      margin-top: 20px;
-    }
+.col-md-8 {
+  padding-left: 0;
+  padding-right: 0;
+  h2, .btn {
+    margin-top: 10px;
   }
 }
 

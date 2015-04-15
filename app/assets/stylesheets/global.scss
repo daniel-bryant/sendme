@@ -4,10 +4,9 @@ html, body {
   height: 100%;
 }
 a {
-  color: #222;
+  color: #333;
   &:hover, &:focus {
-    color: #111;
-    text-decoration: none;
+    color: #333;
   }
 }
 /* ---------- Flash Box ---------- */
