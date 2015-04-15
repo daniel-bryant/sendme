@@ -1,29 +1,28 @@
 = render 'navbar'
-#edit-container
-  .container
-    .row
-      .col-md-6.col-md-offset-3
-        = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
-        .delete-avatar
-          = link_to avatar_user_path(@user), method: :delete, data: {confirm: 'Delete this image?'} do
-            = icon('trash')
-        = form_for @user, html: {role: 'form', multipart: true} do |f|
-          .form-group
-            = f.label :avatar
-            = f.file_field :avatar
-          .form-group
-            = f.label :name
-            = f.text_field :name, class: 'form-control'
-          .form-group
-            = f.label :email
-            = f.text_field :email, class: 'form-control'
-          .form-group
-            = f.label :title
-            = f.text_field :title, class: 'form-control'
-          .form-group
-            = f.label :password
-            = f.password_field :password, class: 'form-control'
-          .form-group
-            = f.label :password_confirmation, 'Confirmation'
-            = f.password_field :password_confirmation, class: 'form-control'
-          = f.submit 'Update', class: 'btn btn-large btn-primary'
+.container{style: 'padding-top: 50px;'}
+  .row
+    .col-md-6.col-md-offset-3
+      = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
+      .delete-avatar
+        = link_to avatar_user_path(@user), method: :delete, data: {confirm: 'Delete this image?'} do
+          = icon('trash')
+      = form_for @user, html: {role: 'form', multipart: true} do |f|
+        .form-group
+          = f.label :avatar
+          = f.file_field :avatar
+        .form-group
+          = f.label :name
+          = f.text_field :name, class: 'form-control'
+        .form-group
+          = f.label :email
+          = f.text_field :email, class: 'form-control'
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+        .form-group
+          = f.label :password
+          = f.password_field :password, class: 'form-control'
+        .form-group
+          = f.label :password_confirmation, 'Confirmation'
+          = f.password_field :password_confirmation, class: 'form-control'
+        = f.submit 'Update', class: 'btn btn-large btn-primary'
