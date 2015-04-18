@@ -12,6 +12,18 @@
         - flash.each do |message_type, message|
           %div
             = message
+    - if logged_in? && controller_name != 'documents'
+      %nav.navbar.navbar-fixed-top
+        .container-fluid{style: 'padding-right: 50px;'}
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to current_user.name, current_user, class: 'sm-nav-link'
+            %li.bottom-tooltip{title: 'Account'}
+              = link_to edit_user_path(current_user), class: 'sm-nav-link' do
+                = icon('cog', '', class: 'fa-lg')
+            %li.bottom-tooltip{title: 'Sign out'}
+              = link_to logout_path, method: :delete, class: 'sm-nav-link' do
+                = icon('sign-out', '', class: 'fa-lg')
     = yield
     <!-- Modals -->
     = content_for :modals

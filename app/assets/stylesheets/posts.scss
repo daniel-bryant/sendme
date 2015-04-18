@@ -1,0 +1,50 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import url(http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic);
+.posts-container {
+  margin-top: 30px;
+}
+.posts-header {
+  color: #777;
+  font-size: 1.15em;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.post {
+  font-family: 'Playfair Display', serif;
+  h1.post-name {
+    font-size: 2.85em;
+    text-align: center;
+  }
+  .post-info {
+    color: #777;
+    margin: 30px 0;
+    font-size: 1.25em;
+    text-align: center;
+    a { font-weight: bold; }
+  }
+  .post-content {
+    font-size: 1.35em;
+    line-height: 1.9em;
+    border-bottom: 3px solid #ddd;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+.comment {
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+  .comment-info {
+    color: #777;
+    font-size: 1.15em;
+    a { font-weight: bold; }
+  }
+  .comment-content {
+    font-size: 1.25em;
+    word-wrap: break-word;
+  }
+}

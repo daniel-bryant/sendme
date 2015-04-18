@@ -1,0 +1,10 @@
+.posts-header
+  You are reading a
+  = link_to 'blog', blog_path
+  about nothing,
+  - if logged_in?
+    signed in as
+    = link_to "#{current_user.name}.", current_user
+  - else
+    not
+    = link_to 'signed in.', login_path

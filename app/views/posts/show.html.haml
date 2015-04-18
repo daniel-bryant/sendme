@@ -1,0 +1,19 @@
+.posts-container.container
+  .row
+    .col-md-8.col-md-offset-2
+      = render 'header'
+      = render @post
+      = render @post.comments
+      .comment.clearfix
+        - if logged_in?
+          = form_for Comment.new, url: post_comments_path(@post), html: {role: 'form'} do |f|
+            = render 'shared/error_messages', object: f.object
+            .form-group
+              = f.text_area :content, placeholder: 'Share your thoughts...',
+                class: 'form-control', rows: 10, required: true
+            = f.submit 'Add comment', class: 'btn btn-large btn-primary pull-right'
+        - else
+          = link_to "Login", login_path
+          or
+          = link_to "sign up", signup_path
+          to comment.

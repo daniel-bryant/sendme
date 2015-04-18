@@ -1,0 +1,11 @@
+.posts-container.container
+  .row
+    .col-md-8.col-md-offset-2
+      = render 'header'
+      = form_for @post, html: {role: 'form'} do |f|
+        = render 'shared/error_messages', object: f.object
+        .form-group
+          = f.text_field :name, placeholder: 'Name', class: 'form-control'
+        .form-group
+          = f.text_area :content, placeholder: 'Content', class: 'form-control', rows: 50
+        = f.submit 'Publish', class: 'btn btn-large btn-primary'

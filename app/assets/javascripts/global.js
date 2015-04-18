@@ -1,5 +1,15 @@
 $(document).on('page:change', function() {
+  /* bootstrap tooltips */
   $('.bottom-tooltip').tooltip({placement: 'bottom'});
+
+  /* toggle-form hide/show */
+  $('.toggle-form').hide();
+  $('.toggle-edit').click(function() {
+    $('#' + $(this).data().id).show();
+  });
+  $('.toggle-cancel').click(function() {
+    $('#' + $(this).data().id).hide();
+  });
 });
 
 // convert Date to string and return in the format "12:34 pm"

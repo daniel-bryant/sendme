@@ -1,7 +1,6 @@
-= render 'shared/navbar'
-.container{style: 'padding-top: 50px;'}
+.container
   .row
-    .col-md-6.col-md-offset-3
+    .col-md-6.col-md-offset-3{style: 'padding-top: 55px; padding-bottom: 25px;'}
       = image_tag @user.avatar.url(:medium), class: 'medium-avatar'
       .delete-avatar
         = link_to avatar_user_path(@user), method: :delete, data: {confirm: 'Delete this image?'} do
