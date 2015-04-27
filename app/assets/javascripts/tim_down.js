@@ -74,24 +74,6 @@ function update_selection() {
   }, 0);
 }
 
-var mousedown = false;
-
-$(document).mousedown(function() {
-  mousedown = true;
-  update_selection();
-});
-
-$(document).mouseup(function() {
-  mousedown = false;
-  update_selection();
-});
-
-$(document).mousemove(function() {
-  if (mousedown) {
-    update_selection();
-  }
-});
-
 /* ---------- Collapse selection ---------- */
 function collapse_selected() {
   if (window.getSelection) {

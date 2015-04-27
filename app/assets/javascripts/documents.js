@@ -272,8 +272,25 @@ $(document).on('page:change', function() {
     }
 
     // cursor blink when the document is in focus
-    $('#document-editor').focusin(function() { window.$cursor.addClass('blink-1s'); });
-    $('#document-editor').focusout(function() { window.$cursor.removeClass('blink-1s'); });
+    $('#document-editor').focusin(function() {
+      window.focusin = true;
+      window.$cursor.addClass('blink-1s');
+    });
+    $('#document-editor').focusout(function() {
+      window.focusin = false;
+      window.$cursor.removeClass('blink-1s');
+    });
+
+    $('#document-editor').mousedown(function() {
+      update_selection();
+    });
+    $('#document-editor').mouseup(function() {
+      update_selection();
+    });
+    $('#document-editor').mousemove(function() {
+      if (window.focusin) { update_selection(); }
+      // TODO scroll page when user drags cursor to select text over or under current window
+    });
   }
 });
 
