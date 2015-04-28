@@ -419,26 +419,26 @@ function move_cursor_right() {
 function move_cursor_up() {
   if (getSelectedChars().length) { move_cursor_left(); }
   var $moveto = window.$cursor;
-  var topp = $moveto.position().top;
+  var bottom = $moveto.position().top + $moveto.height();
   var left = $moveto.position().left;
   var $prev = prev_char($moveto);
 
-  var new_top = topp;
-  while ($prev.length && !($prev.position().top + $prev.outerHeight(true) < topp)) {
+  var new_bottom = bottom;
+  while ($prev.length && !($prev.position().top + $prev.height() < bottom)) {
     // go backwards until we find one ABOVE the cursor
     $moveto = $prev;
     $prev = prev_char($prev);
   }
 
-  if ($prev.length) { new_top = $prev.position().top; }
+  if ($prev.length) { new_bottom = $prev.position().top + $prev.height(); }
 
-  while ($prev.length && !($prev.position().left <= left) && !($prev.position().top + $prev.outerHeight(true) < new_top)) {
+  while ($prev.length && !($prev.position().left <= left) && !($prev.position().top + $prev.height() < new_bottom)) {
     // go backwards until we find one to the left of the cursor
     $moveto = $prev;
     $prev = prev_char($prev);
   }
 
-  if ($prev.length && !($prev.position().top + $prev.outerHeight(true) < new_top)) { $moveto = $prev; }
+  if ($prev.length && !($prev.position().top + $prev.height() < new_bottom)) { $moveto = $prev; }
 
   set_to_cursor($moveto);
 }
@@ -446,26 +446,26 @@ function move_cursor_up() {
 function move_cursor_down() {
   if (getSelectedChars().length) { move_cursor_right(); }
   var $moveto = window.$cursor;
-  var bottom = $moveto.position().top + $moveto.outerHeight(true);
+  var bottom = $moveto.position().top + $moveto.height();
   var left = $moveto.position().left;
   var $next = next_char($moveto);
 
   var new_bottom = bottom;
-  while ($next.length && !($next.position().top > bottom)) {
+  while ($next.length && !($next.position().top + $next.height() > bottom)) {
     // go forwards until we find one BELOW the cursor
     $moveto = $next;
     $next = next_char($next);
   }
 
-  if ($next.length) { new_bottom = $next.position().top + $next.outerHeight(true); }
+  if ($next.length) { new_bottom = $next.position().top + $next.height(); }
 
-  while ($next.length && !($next.position().left >= left) && !($next.position().top > new_bottom)) {
+  while ($next.length && !($next.position().left >= left) && !($next.position().top + $next.height() > new_bottom)) {
     // go forwards until we find one to the right of the cursor
     $moveto = $next;
     $next = next_char($next);
   }
 
-  if ($next.length && !($next.position().top > new_bottom)) { $moveto = $next; }
+  if ($next.length && !($next.position().top + $next.height() > new_bottom)) { $moveto = $next; }
 
   set_to_cursor($moveto);
 }
