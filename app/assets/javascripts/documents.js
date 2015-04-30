@@ -76,13 +76,13 @@ $(document).on('page:change', function() {
     });
   }
 
-  if ($('#document-info').length) {
-    var $doc_info = $('#document-info');
+  var $scroll_watch = $('.scroll-watch');
+  if ($scroll_watch.length) {
     $(window).scroll(function() {
       if($(this).scrollTop()) {
-        $doc_info.addClass('scroll-shadow');
+        $scroll_watch.addClass('scroll-shadow');
       } else {
-        $doc_info.removeClass('scroll-shadow');
+        $scroll_watch.removeClass('scroll-shadow');
       }
     });
   }
@@ -108,6 +108,7 @@ $(document).on('page:change', function() {
           window.$cursor.before(character);
           window.$cursor.height(format['font-size']);
       }
+      push_words_down(window.$cursor.closest('.page'));
       scroll_to_cursor();
       save_changes();
       event.preventDefault();
@@ -118,6 +119,7 @@ $(document).on('page:change', function() {
       switch (event.which) {
         case 8: // backspace
           handle_backspace();
+          pull_words_up(window.$cursor.closest('.page'));
           scroll_to_cursor();
           save_changes();
           event.preventDefault();

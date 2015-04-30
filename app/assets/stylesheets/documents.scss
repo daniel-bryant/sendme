@@ -53,11 +53,20 @@
   }
 }
 
+#document-editor {
+  padding: 30px 0;
+  padding-top: 133px;
+  background-color: #eee;
+}
+
 #document-editor-toolbar {
+  position: fixed;
+  top: 95px;
+  width: 100%;
   background-color: #eee;
   border-top: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
-  // prevent toolbar clicks from removing a selection in the document
+  // prevent toolbar clicks from removing highlighting from selected text in the document
   // http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting/4358620#4358620
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -206,7 +215,7 @@ ul.dropdown-list {
 }
 /* ---------- scroll-shadow ---------- */
 .scroll-shadow {
-  -webkit-box-shadow: 0 0 3px 3px #ccc;
-  -moz-box-shadow:    0 0 3px 3px #ccc;
-  box-shadow:         0 0 3px 3px #ccc;
+  -webkit-box-shadow: 0 3px 3px #ccc;
+  -moz-box-shadow:    0 3px 3px #ccc;
+  box-shadow:         0 3px 3px #ccc;
 }

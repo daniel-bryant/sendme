@@ -3,6 +3,7 @@
     = link_to root_path, id: 'home-bars' do
       = icon('bars', '', class: 'fa-inverse')
     = render 'document_info', edit_modal: true
-  = render 'editor_toolbar'
 
-= render 'document_container'
+#document-editor{tabindex: '0'}
+  = render 'editor_toolbar'
+  #page1.page{style: "width: 8.5in; height: 11in; padding: 1in;", data: {id: @document.id}}= @document.body.html_safe
