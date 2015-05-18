@@ -1,3 +1,5 @@
+var STYLE_ATTRIBUTES = ['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration'];
+
 function init_cursor($char) {
   window.$cursor = $('<span class="char cursor">&#8203;</span>');
   set_to_cursor($char);
@@ -8,7 +10,7 @@ function set_to_cursor($char) {
   // match styles to the new previous char if one exists, else match to the next
   var $prev = window.$cursor.prev();
   var $match_styles = $prev.length ? $prev : $char;
-  window.$cursor.css($match_styles.css(['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration']));
+  window.$cursor.css($match_styles.css(STYLE_ATTRIBUTES));
   set_format_vals();
 }
 
@@ -104,7 +106,7 @@ $(document).on('page:change', function() {
           handle_enter_keypress();
           break;
         default:
-          var format = make_format_obj();
+          var format = window.$cursor.css(STYLE_ATTRIBUTES);
           var $character = $('<span class="char">' + String.fromCharCode(event.which) + '</span>').css(format);
           window.$cursor.before($character);
           var $next = window.$cursor.next();
@@ -338,15 +340,6 @@ function handle_enter_keypress() {
   }
 }
 
-function make_format_obj() {
-  var font = $('#font-fam-select button span').html();
-  var size = $('#font-size-select button span').html() + 'px';
-  var weight = $('#bold-checkbox')[0].checked ? 'bold' : 'normal';
-  var style = $('#italic-checkbox')[0].checked ? 'italic' : 'normal';
-  var deco = $('#underline-checkbox')[0].checked ? 'underline' : 'none';
-  return {'font-family': font, 'font-size': size, 'font-weight': weight, 'font-style': style, 'text-decoration': deco};
-}
-
 function handle_backspace() {
   if (window.$cursor.prev().length) {
     window.$cursor.prev().remove();
@@ -363,7 +356,7 @@ function handle_backspace() {
 
   var $prev = window.$cursor.prev(), $next = window.$cursor.next();
   if ($prev.length && $next.hasClass('nbsp-char')) {
-    $next.css($prev.css(['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration']));
+    $next.css($prev.css(STYLE_ATTRIBUTES));
   }
 }
 
