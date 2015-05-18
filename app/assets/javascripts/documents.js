@@ -1,13 +1,14 @@
 function init_cursor($char) {
-  $char.addClass('cursor');
-  window.$cursor = $char;
-  set_format_vals();
+  window.$cursor = $('<span class="char cursor">&#8203;</span>');
+  set_to_cursor($char);
 }
 
 function set_to_cursor($char) {
-  window.$cursor.removeClass('cursor blink-1s');
-  $char.addClass('cursor blink-1s');
-  window.$cursor = $char;
+  $char.before(window.$cursor);
+  // match styles to the new previous char if one exists, else match to the next
+  var $prev = window.$cursor.prev();
+  var $match_styles = $prev.length ? $prev : $char;
+  window.$cursor.css($match_styles.css(['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration']));
   set_format_vals();
 }
 
@@ -104,9 +105,10 @@ $(document).on('page:change', function() {
           break;
         default:
           var format = make_format_obj();
-          var character = $('<span class="char">' + String.fromCharCode(event.which) + '</span>').css(format);
-          window.$cursor.before(character);
-          window.$cursor.height(format['font-size']);
+          var $character = $('<span class="char">' + String.fromCharCode(event.which) + '</span>').css(format);
+          window.$cursor.before($character);
+          var $next = window.$cursor.next();
+          if ($next.hasClass('nbsp-char')) { $next.css(format); }
       }
       push_words_down(window.$cursor.closest('.page'));
       scroll_to_cursor();
@@ -266,8 +268,8 @@ $(document).on('page:change', function() {
     if ($paragraphs.length) {
       init_cursor($paragraphs.first().contents().first());
     } else {
-      var $new_para = $('<div class="para" style="text-align: left; line-height: 1;"></div>');
-      var $nbsp_char = $('<span class="char nbsp-char" style="font-family:Arial;font-size:24px;font-weight:normal;font-style:normal;text-decoration:none;">&nbsp;</span>');
+      var $new_para = $('<div class="para"></div>').css({'text-align': 'left', 'line-height': 1});
+      var $nbsp_char = $('<span class="char nbsp-char">&nbsp;</span>').css({'font-family': 'Arial', 'font-size': '24px', 'font-weight': 'normal', 'font-style': 'normal', 'text-decoration': 'none'});
       $('#page1').prepend($new_para);
       $new_para.prepend($nbsp_char);
       init_cursor($nbsp_char);
@@ -298,6 +300,7 @@ $(document).on('page:change', function() {
 
 function format_selection(property, value) {
   $(getSelectedChars()).css(property, value);
+  window.$cursor.css(property, value);
 }
 
 function handle_enter_keypress() {
@@ -330,7 +333,7 @@ function handle_enter_keypress() {
     var $clone = $parent.clone().empty();
     var $nbsp_char = $parent.children('.nbsp-char');
     $clone.append(window.$cursor.nextAll().andSelf());
-    $parent.append($nbsp_char.clone().removeClass('cursor blink-1s'));
+    $parent.append($nbsp_char.clone());
     $parent.after($clone);
   }
 }
@@ -347,15 +350,20 @@ function make_format_obj() {
 function handle_backspace() {
   if (window.$cursor.prev().length) {
     window.$cursor.prev().remove();
-    return;
+    set_to_cursor(window.$cursor.next());
+  } else {
+    var $parent = window.$cursor.parent();
+    var $parent_prev = $parent.prev();
+    if ($parent_prev.length) {
+      $parent_prev.contents().last().remove();
+      $parent_prev.append($parent.contents());
+      $parent.remove();
+    }
   }
 
-  var $parent = window.$cursor.parent();
-  var $parent_prev = $parent.prev();
-  if ($parent_prev.length) {
-    $parent_prev.contents().last().remove();
-    $parent_prev.append($parent.contents());
-    $parent.remove();
+  var $prev = window.$cursor.prev(), $next = window.$cursor.next();
+  if ($prev.length && $next.hasClass('nbsp-char')) {
+    $next.css($prev.css(['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration']));
   }
 }
 
@@ -414,7 +422,7 @@ function move_cursor_right() {
     set_to_cursor($(selected_chars).last());
     collapse_selected();
   }
-  var $char = next_char(window.$cursor);
+  var $char = next_char(window.$cursor.next());
   if ($char.length) { set_to_cursor($char); }
 }
 
@@ -537,7 +545,8 @@ function save_changes() {
 }
 
 function update_document() {
-  window.$cursor.removeClass('cursor blink-1s');
+  var $char = window.$cursor.next();
+  window.$cursor.remove();
 
   var body = "";
   $('#page1').nextAll().andSelf().each(function() {
@@ -557,7 +566,7 @@ function update_document() {
       $('#doc-saved-at').html("Could not connect to server");
     });
 
-  window.$cursor.addClass('cursor blink-1s');
+  $char.before(window.$cursor);
 }
 
 function scroll_to_cursor() {
