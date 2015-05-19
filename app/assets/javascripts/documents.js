@@ -362,39 +362,37 @@ function handle_backspace() {
 
 function prev_char($tag) {
   var $moveto = $tag.prev();
+  var $parent = $tag.parent();
 
-  if (!($moveto.length)) {
-    var $parent = $tag.parent();
-    $moveto = $parent.prev();
-    if (!($moveto.length) && $parent[0].tagName == "LI") {
-      $moveto = $parent.parent().prev();
-    }
-
-    if (!($moveto.length)) {
-      $moveto = $parent.parent().prev();
-    }
-
-    $moveto = $moveto.find('.char').last();
+  while (!$moveto.length && $parent.length && $parent.attr('id') != "document-editor") {
+    $parent.prevAll().each(function(index, element) {
+      var $chars= $(element).find('.char');
+      if ($chars.length) {
+        $moveto = $chars.last();
+        return false;
+      }
+    });
+    $parent = $parent.parent();
   }
+
   return $moveto;
 }
 
 function next_char($tag) {
   var $moveto = $tag.next();
+  var $parent = $tag.parent();
 
-  if (!($moveto.length)) {
-    var $parent = $tag.parent();
-    $moveto = $parent.next();
-    if (!($moveto.length) && $parent[0].tagName == "LI") {
-      $moveto = $parent.parent().next();
-    }
-
-    if (!($moveto.length)) {
-      $moveto = $parent.parent().next();
-    }
-
-    $moveto = $moveto.find('.char').first();
+  while (!$moveto.length && $parent.length && $parent.attr('id') != "document-editor") {
+    $parent.nextAll().each(function(index, element) {
+      var $chars= $(element).find('.char');
+      if ($chars.length) {
+        $moveto = $chars.first();
+        return false;
+      }
+    });
+    $parent = $parent.parent();
   }
+
   return $moveto;
 }
 
