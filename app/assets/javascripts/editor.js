@@ -1,10 +1,5 @@
 var STYLE_ATTRIBUTES = ['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration'];
 
-function init_cursor($char) {
-  window.$cursor = $('<span class="char cursor">&#8203;</span>');
-  set_to_cursor($char);
-}
-
 function set_to_cursor($char) {
   $char.before(window.$cursor);
   // match styles to the new previous char if one exists, else match to the next
@@ -236,15 +231,17 @@ $(document).on('page:change', function() {
       }
     });
 
+    // init cursor
+    window.$cursor = $('<span class="char cursor">&#8203;</span>');
     var $paragraphs = $('#page1 .para');
     if ($paragraphs.length) {
-      init_cursor($paragraphs.first().contents().first());
+      set_to_cursor($paragraphs.first().contents().first());
     } else {
       var $new_para = $('<div class="para"></div>').css({'text-align': 'left', 'line-height': 1});
       var $nbsp_char = $('<span class="char nbsp-char">&nbsp;</span>').css({'font-family': 'Arial', 'font-size': '24px', 'font-weight': 'normal', 'font-style': 'normal', 'text-decoration': 'none'});
       $('#page1').prepend($new_para);
       $new_para.prepend($nbsp_char);
-      init_cursor($nbsp_char);
+      set_to_cursor($nbsp_char);
     }
 
     // cursor blink when the document is in focus
@@ -331,7 +328,7 @@ function handle_backspace() {
 }
 
 function prev_char($tag) {
-  var $moveto = $tag.prev();
+  var $moveto = $tag.prev('.char');
   var $parent = $tag.parent();
 
   while (!$moveto.length && $parent.length && $parent.attr('id') != "document-editor") {
@@ -349,7 +346,7 @@ function prev_char($tag) {
 }
 
 function next_char($tag) {
-  var $moveto = $tag.next();
+  var $moveto = $tag.next('.char');
   var $parent = $tag.parent();
 
   while (!$moveto.length && $parent.length && $parent.attr('id') != "document-editor") {
