@@ -62,7 +62,7 @@ $(document).on('page:change', function() {
   if ($('#document-editor-toolbar').length) {
     // set up variables needed to save documents to the api
     window.timer = null;
-    window.document_url = '/documents/' + $('#page1').data().id;
+    window.document_url = $('#document-editor-toolbar').data().url;
 
     // handle keypress events (character handling)
     $(document).on('keypress', '#document-editor', function(event) {
