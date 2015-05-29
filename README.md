@@ -23,7 +23,7 @@ brew install imagemagick
 
 brew install postgresql
 
-rake db:setup
+rake db:setup; rake db:migrate
 
 * How to run the test suite
 
@@ -32,6 +32,8 @@ rake db:setup
 * Deployment instructions
 
 * ...
+
+powder link
 
 
 Please feel free to use a different markup language if you do not plan to run
