@@ -1,40 +1,33 @@
-== README
+# Sendme
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
+## Ruby/Rails versions
   
 Ruby 2.1.2
 
 Rails 4.2.1
 
-* System dependencies
+## System dependencies
 
+```
 brew install imagemagick
+```
 
-* Configuration
+## Postgres database
 
-* Database creation
-
-* Database initialization
-
+```
 brew install postgresql
 
 rake db:setup; rake db:migrate
+```
 
-* How to run the test suite
+## Test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## Deployment
 
-* Deployment instructions
+### Local
 
-* ...
-
+```
 powder link
+```
 
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+[http://sendme.dev/](http://sendme.dev/)
