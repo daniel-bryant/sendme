@@ -9,7 +9,7 @@ Things you may want to cover:
   
 Ruby 2.1.2
 
-Rails 4.1.8
+Rails 4.2.1
 
 * System dependencies
 
