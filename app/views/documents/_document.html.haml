@@ -1,3 +1,3 @@
 #document-editor{tabindex: '0'}
   = render 'editor_toolbar', url: url_for(document) if editable
-  #page1.page{style: "width: 8.5in; height: 11in; padding: 1in;"}= document.body.html_safe
+  #document-editor-pages= document.body.html_safe
