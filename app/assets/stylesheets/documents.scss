@@ -76,6 +76,10 @@
   user-select: none;
 }
 
+#document-info, #document-editor-toolbar {
+  z-index: 2; // cover the cursor
+}
+
 .toolbar-wrapper {
   width: 816px;
   margin: 0 auto;
@@ -164,6 +168,7 @@ input.editor-checkbox:checked + label {
 .cursor {
   border-left: 2px solid #333;
   margin-right: -2px;
+  z-index: 1;
 }
 
 .blink-1s {
