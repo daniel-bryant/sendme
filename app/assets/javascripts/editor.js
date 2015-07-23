@@ -68,7 +68,7 @@ function handleWordnodeClick($word, coordinates) {
       curr_node = textnode;
       offset++;
     }
-    window.cursorOffset = offset - 1;
+    window.cursorOffset = (offset == 0 ? offset : offset - 1);
     set$Cursor(curr_node);
     curr_node.parentNode.normalize();
   } else {
@@ -130,7 +130,7 @@ $(document).on('mousedown', '.smore-nbsp', function(event) {
   var textnode = $(this).contents()[0];
   window.cursorTextNode = textnode;
   window.cursorOffset = 0;
-  set$Cursor(textnode);
+  set$Cursor(window.cursorTextNode);
 });
 
 /* compare_styles (haveSameStyles?) - compare the editor related styles of 2 words. returns true if they match, returns false otherwise */
@@ -842,9 +842,8 @@ function move_cursor_left() {
     // set the cursor here
     collapse_selected();
   } else {
-    var moveto;
     if (window.cursorOffset < 1) {
-      moveto = prevTextNode(window.cursorTextNode);
+      var moveto = prevTextNode(window.cursorTextNode);
       if (moveto) {
         window.cursorTextNode = moveto;
         window.cursorOffset = window.cursorTextNode.length;
@@ -854,12 +853,12 @@ function move_cursor_left() {
     }
     window.cursorOffset -= 1;
     if (window.cursorOffset > 0) {
-      moveto = window.cursorTextNode.splitText(window.cursorOffset);
+      var rightside = window.cursorTextNode.splitText(window.cursorOffset);
+      set$Cursor(rightside);
+      window.cursorTextNode.parentElement.normalize();
     } else {
-      moveto = window.cursorTextNode;
+      set$Cursor(window.cursorTextNode);
     }
-    set$Cursor(moveto);
-    window.cursorTextNode.parentElement.normalize();
   }
 }
 
@@ -870,23 +869,18 @@ function move_cursor_right() {
     collapse_selected();
   }
 
-  var moveto;
   if (window.cursorOffset + 1 == window.cursorTextNode.length) {
-    moveto = nextTextNode(window.cursorTextNode);
+    var moveto = nextTextNode(window.cursorTextNode);
     if (moveto) {
       window.cursorTextNode = moveto;
-      window.cursorOffset = -1;
-    } else {
-      return; // at the end of the text node and nothing to the right.. just return
+      window.cursorOffset = 0;
+      set$Cursor(window.cursorTextNode);
     }
+    return;
   }
   window.cursorOffset += 1;
-  if (window.cursorOffset > 0) {
-    moveto = window.cursorTextNode.splitText(window.cursorOffset);
-  } else {
-    moveto = window.cursorTextNode;
-  }
-  set$Cursor(moveto);
+  var rightside = window.cursorTextNode.splitText(window.cursorOffset);
+  set$Cursor(rightside);
   window.cursorTextNode.parentElement.normalize();
 }
 
