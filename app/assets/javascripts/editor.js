@@ -1,5 +1,9 @@
 var STYLE_ATTRIBUTES = ['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration'];
 
+function filterTextNodes() {
+  return this.nodeType === 3;
+}
+
 function textNodeRect(textNode) {
   var range = document.createRange();
   range.selectNodeContents(textNode);
@@ -44,7 +48,7 @@ function setCursorTextNode() {
 /* Document click handlers */
 
 function handleWordnodeClick($word, coordinates) {
-  var $textnode = $word.contents().filter(function() { return this.nodeType == 3; });
+  var $textnode = $word.contents().filter(filterTextNodes);
 
   if ($textnode.length) {
     window.cursorTextNode = $textnode[0];
@@ -197,9 +201,9 @@ function pushWordsDown($line) {
       if ($word.offset().left + $word.width() > line_right) { return false; }
     });
 
-    var textnode = $word.contents().filter(function() { return this.nodeType == 3; })[0];
+    var textnode = $word.contents().filter(filterTextNodes)[0];
     splitTextByChar(textnode, '\u00a0');
-    var $textnodes = $word.contents().filter(function() { return this.nodeType == 3; });
+    var $textnodes = $word.contents().filter(filterTextNodes);
     $textnodes.each(function() {
       var pos_left = textNodeRect(this).left;
       if (pos_left < line_right) {
@@ -253,12 +257,12 @@ function pullWordsUp($line) {
     var continue_loop = true;
     var $this_word = $(this);
 
-    var textnode = $this_word.contents().filter(function() { return this.nodeType == 3; })[0];
+    var textnode = $this_word.contents().filter(filterTextNodes)[0];
     if (!textnode) { return false; }
     splitTextByChar(textnode, '\u00a0');
 
     var $nbsp = $last_word.contents('.smore-nbsp');
-    var $textnodes = $this_word.contents().filter(function() { return this.nodeType == 3; });
+    var $textnodes = $this_word.contents().filter(filterTextNodes);
     $textnodes.each(function() {
       var width = textNodeRect(this).width;
       if (width < space_left) {
@@ -279,7 +283,7 @@ function pullWordsUp($line) {
       }
     });
 
-    if ($this_word.contents().filter(function() { return this.nodeType == 3; }).length) {
+    if ($this_word.contents().filter(filterTextNodes).length) {
       normalizeText($this_word[0]);
     } else { // word is empty
       if ($this_word.find('.smore-nbsp').length && $this_word.contents('.smore-nbsp').contents()[0] == window.cursorTextNode) {
@@ -292,9 +296,9 @@ function pullWordsUp($line) {
     return continue_loop;
   });
 
-  if ($next_line.contents('.smore-wordnode').contents().filter(function() { return this.nodeType == 3; }).length == 0) {
-    if ($next_line.find('.smore-nbsp').contents().filter(function() { return this.nodeType == 3; })[0] == window.cursorTextNode) {
-      window.cursorTextNode = $line.find('.smore-nbsp').contents().filter(function() { return this.nodeType == 3; })[0];
+  if ($next_line.contents('.smore-wordnode').contents().filter(filterTextNodes).length == 0) {
+    if ($next_line.find('.smore-nbsp').contents().filter(filterTextNodes)[0] == window.cursorTextNode) {
+      window.cursorTextNode = $line.find('.smore-nbsp').contents().filter(filterTextNodes)[0];
     }
     $next_line.remove();
     $next_line = $line.next('.smore-line');
