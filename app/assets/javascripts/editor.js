@@ -1,5 +1,12 @@
 var STYLE_ATTRIBUTES = ['font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration'];
 
+function textNodeRect(textNode) {
+  var range = document.createRange();
+  range.selectNodeContents(textNode);
+  var rects = range.getClientRects();
+  return rects[0];
+}
+
 /* Setting the cursor */
 
 function set$Cursor(textNode) {
@@ -17,15 +24,11 @@ function set$Cursor(textNode) {
   window.$cursor[0].style.lineHeight = $(textNode).closest('.smore-paragraph')[0].style.lineHeight
 
   var pos_top = $line.position().top;
-
-  var range = document.createRange();
-  range.selectNodeContents(textNode);
-  var rects = range.getClientRects();
-  var pos_left = rects[0].left;
+  var pos_left = textNodeRect(textNode).left;
 
   window.$cursor.css({'top': pos_top, 'left': pos_left});
 
-  set_format_vals();
+  setFormatVals();
 }
 
 function setCursorTextNode() {
@@ -42,16 +45,13 @@ function setCursorTextNode() {
 
 function handleWordnodeClick($word, coordinates) {
   var $textnode = $word.contents().filter(function() { return this.nodeType == 3; });
-  //var $nbspnode = $word.contents().filter(function () { return $(this).hasClass('smore-nbsp'); }).contents().filter(function() { return this.nodeType == 3; });
+
   if ($textnode.length) {
     window.cursorTextNode = $textnode[0];
-    var range = document.createRange();
 
     var offset = 0;
     var textnode = window.cursorTextNode;
-    range.selectNodeContents(textnode);
-    var rects = range.getClientRects();
-    var pos_left = rects[0].left;
+    var pos_left = textNodeRect(textnode).left;
 
     var curr_node = textnode;
     var curr_left = pos_left;
@@ -61,9 +61,7 @@ function handleWordnodeClick($word, coordinates) {
 
       offset++;
       textnode = textnode.splitText(1);
-      range.selectNodeContents(textnode);
-      rects = range.getClientRects();
-      pos_left = rects[0].left;
+      pos_left = textNodeRect(textnode).left;
     }
 
     if ( (coordinates.pageX - curr_left) > (pos_left - coordinates.pageX) ) {
@@ -203,10 +201,7 @@ function pushWordsDown($line) {
     splitTextByChar(textnode, '\u00a0');
     var $textnodes = $word.contents().filter(function() { return this.nodeType == 3; });
     $textnodes.each(function() {
-      var range = document.createRange();
-      range.selectNodeContents(this);
-      var rects = range.getClientRects();
-      var pos_left = rects[0].left;
+      var pos_left = textNodeRect(this).left;
       if (pos_left < line_right) {
         textnode = this;
       } else {
@@ -265,10 +260,7 @@ function pullWordsUp($line) {
     var $nbsp = $last_word.contents('.smore-nbsp');
     var $textnodes = $this_word.contents().filter(function() { return this.nodeType == 3; });
     $textnodes.each(function() {
-      var range = document.createRange();
-      range.selectNodeContents(this);
-      rects = range.getClientRects();
-      var width = rects[0].right - rects[0].left;
+      var width = textNodeRect(this).width;
       if (width < space_left) {
         if (compare_styles($last_word.css(STYLE_ATTRIBUTES), $this_word.css(STYLE_ATTRIBUTES))) {
           $nbsp.before(this);
@@ -951,10 +943,7 @@ function move_cursor_up() {
     textnode = window.cursorTextNode;
   }
 
-  var range = document.createRange();
-  range.selectNodeContents(textnode);
-  var rects = range.getClientRects();
-  var pos_left = rects[0].left;
+  var pos_left = textNodeRect(textnode).left;
   textnode.parentNode.normalize();
 
   matchClickToWord($prev_line, {pageX: pos_left})
@@ -973,16 +962,13 @@ function move_cursor_down() {
     textnode = window.cursorTextNode;
   }
 
-  var range = document.createRange();
-  range.selectNodeContents(textnode);
-  var rects = range.getClientRects();
-  var pos_left = rects[0].left;
+  var pos_left = textNodeRect(textnode).left;
   textnode.parentNode.normalize();
 
   matchClickToWord($next_line, {pageX: pos_left})
 }
 
-function set_format_vals() {
+function setFormatVals() {
   // font-family
   var font_family = window.$cursor.css('font-family').replace(/^'|'$/g, '');
   $('#font-fam-select button span').html(font_family);
