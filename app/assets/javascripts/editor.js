@@ -815,7 +815,7 @@ function prevTextNode(node) {
   }
 
   var parentnode = node;
-  while ((parentnode = parentnode.parentNode) && !textnode && parentnode.id != 'page1') {
+  while ((parentnode = parentnode.parentNode) && !textnode && parentnode.id != 'document-editor-pages') {
     previous = parentnode;
     while ((previous = previous.previousSibling) && !textnode) {
       textnode = getLastTextNode(previous);
@@ -834,7 +834,7 @@ function nextTextNode(node) {
   }
 
   var parentnode = node;
-  while ((parentnode = parentnode.parentNode) && !textnode && parentnode.id != 'page1') {
+  while ((parentnode = parentnode.parentNode) && !textnode && parentnode.id != 'document-editor-pages') {
     next = parentnode;
     while ((next = next.nextSibling) && !textnode) {
       textnode = getFirstTextNode(next);
