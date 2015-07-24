@@ -47,7 +47,20 @@ function setCursorTextNode() {
 
 /* Document click handlers */
 
+function handleNbspClick($nbsp) {
+  window.cursorTextNode = $nbsp.contents()[0];
+  window.cursorOffset = 0;
+  setCursorTextNode();
+}
+
 function handleWordnodeClick($word, coordinates) {
+  var $nbsp = $word.contents().filter('.smore-nbsp');
+
+  if ($nbsp.length && coordinates.pageX > $nbsp.offset().left) {
+    handleNbspClick($nbsp);
+    return;
+  }
+
   var $textnode = $word.contents().filter(filterTextNodes);
 
   if ($textnode.length) {
@@ -131,10 +144,7 @@ $(document).on('mousedown', '.page .smore-wordnode', function(event) {
 });
 
 $(document).on('mousedown', '.smore-nbsp', function(event) {
-  var textnode = $(this).contents()[0];
-  window.cursorTextNode = textnode;
-  window.cursorOffset = 0;
-  setCursorTextNode();
+  handleNbspClick($(this));
 });
 
 /* compareStyles - compare the editor related styles of 2 words. returns true if they match, returns false otherwise */
