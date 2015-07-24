@@ -134,7 +134,7 @@ $(document).on('mousedown', '.smore-nbsp', function(event) {
   var textnode = $(this).contents()[0];
   window.cursorTextNode = textnode;
   window.cursorOffset = 0;
-  set$Cursor(window.cursorTextNode);
+  setCursorTextNode();
 });
 
 /* compare_styles (haveSameStyles?) - compare the editor related styles of 2 words. returns true if they match, returns false otherwise */
@@ -349,26 +349,26 @@ function handle_keypress(keycode) {
       if (prev_node && $(prev_node).closest('.smore-wordnode').is($word)) {
         if (compare_styles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
           $(prev_node).after(charTextNode);
-          setCursorTextNode(); // TODO all we need to do here is adjust the position. this calls the entire set$Cursor method
+          setCursorTextNode();
           prev_node.parentNode.normalize();
         } else {
           var $new_word = $('<span class="smore-wordnode"></span>').css(cursor_format);
           $word.after($new_word);
           $new_word.append(charTextNode);
           $new_word.append($(window.cursorTextNode.parentElement));
-          setCursorTextNode(); // TODO all we need to do here is adjust the position. this calls the entire set$Cursor method
+          setCursorTextNode();
         }
       } else {
         $word.prepend(charTextNode);
         $word.css(cursor_format);
-        setCursorTextNode(); // TODO all we need to do here is adjust the position. this calls the entire set$Cursor method
+        setCursorTextNode();
       }
     } else {
       var prev_node = prevTextNode(window.cursorTextNode);
       if (prev_node && $(prev_node).closest('.smore-line').is($line) && compare_styles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
         $(prev_node).after(charTextNode);
         prev_node.parentNode.normalize();
-        setCursorTextNode(); // TODO all we need to do here is adjust the position. this calls the entire set$Cursor method
+        setCursorTextNode();
       } else if (same_styles) {
         $(window.cursorTextNode).before(charTextNode);
         setCursorTextNode();
@@ -379,7 +379,7 @@ function handle_keypress(keycode) {
         var $new_word = $('<span class="smore-wordnode"></span>').css(cursor_format);
         $word.before($new_word);
         $new_word.append(charTextNode);
-        setCursorTextNode(); // TODO all we need to do here is adjust the position. this calls the entire set$Cursor method
+        setCursorTextNode();
       }
     }
   }
@@ -388,7 +388,6 @@ function handle_keypress(keycode) {
 }
 
 function handle_enter_keypress() {
-  //var $parent = window.$cursor.parent();
   var $word = $(window.cursorTextNode).closest('.smore-wordnode');
   var $para = $word.closest('.smore-paragraph');
 
@@ -447,7 +446,7 @@ function handle_enter_keypress() {
 
     $word.append($new_nbsp);
     $new_nbsp.append(nbsp_node);
-    set$Cursor(window.cursorTextNode);
+    setCursorTextNode();
   }
 }
 
@@ -655,7 +654,7 @@ $(document).on('page:change', function() {
         });
         $list.replaceWith($list.contents());
       }
-      set$Cursor(window.cursorTextNode);
+      setCursorTextNode();
     });
 
     // unordered list
@@ -690,7 +689,7 @@ $(document).on('page:change', function() {
         });
         $list.replaceWith($list.contents());
       }
-      set$Cursor(window.cursorTextNode);
+      setCursorTextNode();
     });
 
     // indentation
@@ -856,13 +855,7 @@ function move_cursor_left() {
       }
     }
     window.cursorOffset -= 1;
-    if (window.cursorOffset > 0) {
-      var rightside = window.cursorTextNode.splitText(window.cursorOffset);
-      set$Cursor(rightside);
-      window.cursorTextNode.parentElement.normalize();
-    } else {
-      set$Cursor(window.cursorTextNode);
-    }
+    setCursorTextNode();
   }
 }
 
@@ -878,14 +871,12 @@ function move_cursor_right() {
     if (moveto) {
       window.cursorTextNode = moveto;
       window.cursorOffset = 0;
-      set$Cursor(window.cursorTextNode);
+      setCursorTextNode();
     }
     return;
   }
   window.cursorOffset += 1;
-  var rightside = window.cursorTextNode.splitText(window.cursorOffset);
-  set$Cursor(rightside);
-  window.cursorTextNode.parentElement.normalize();
+  setCursorTextNode();
 }
 
 function prevOfClass($tag, classname) {
