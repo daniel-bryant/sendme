@@ -137,9 +137,9 @@ $(document).on('mousedown', '.smore-nbsp', function(event) {
   setCursorTextNode();
 });
 
-/* compare_styles (haveSameStyles?) - compare the editor related styles of 2 words. returns true if they match, returns false otherwise */
+/* compareStyles - compare the editor related styles of 2 words. returns true if they match, returns false otherwise */
 
-function compare_styles(css1, css2) {
+function compareStyles(css1, css2) {
   if (css1['font-family'] != css2['font-family']) return false;
   if (css1['font-size'] != css2['font-size']) return false;
   if (css1['font-weight'] != css2['font-weight']) return false;
@@ -266,7 +266,7 @@ function pullWordsUp($line) {
     $textnodes.each(function() {
       var width = textNodeRect(this).width;
       if (width < space_left) {
-        if (compare_styles($last_word.css(STYLE_ATTRIBUTES), $this_word.css(STYLE_ATTRIBUTES))) {
+        if (compareStyles($last_word.css(STYLE_ATTRIBUTES), $this_word.css(STYLE_ATTRIBUTES))) {
           $nbsp.before(this);
         } else {
           var $new_word = $('<span class="smore-wordnode"></span>').css($this_word.css(STYLE_ATTRIBUTES));
@@ -313,14 +313,14 @@ function pullWordsUp($line) {
 
 /* Keypress handlers */
 
-function handle_keypress(keycode) {
+function handleKeypress(keycode) {
   var $word = $(window.cursorTextNode).closest('.smore-wordnode');
   var $line = $(window.cursorTextNode).closest('.smore-line');
   var charTextNode = document.createTextNode(String.fromCharCode(keycode));
 
   var word_format = $word.css(STYLE_ATTRIBUTES);
   var cursor_format = window.$cursor.css(STYLE_ATTRIBUTES);
-  var same_styles = compare_styles(word_format, cursor_format);
+  var same_styles = compareStyles(word_format, cursor_format);
 
   if (window.cursorOffset > 0) {
     if (same_styles) {
@@ -347,7 +347,7 @@ function handle_keypress(keycode) {
     if ($(window.cursorTextNode.parentElement).hasClass('smore-nbsp')) {
       var prev_node = prevTextNode(window.cursorTextNode);
       if (prev_node && $(prev_node).closest('.smore-wordnode').is($word)) {
-        if (compare_styles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
+        if (compareStyles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
           $(prev_node).after(charTextNode);
           setCursorTextNode();
           prev_node.parentNode.normalize();
@@ -365,7 +365,7 @@ function handle_keypress(keycode) {
       }
     } else {
       var prev_node = prevTextNode(window.cursorTextNode);
-      if (prev_node && $(prev_node).closest('.smore-line').is($line) && compare_styles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
+      if (prev_node && $(prev_node).closest('.smore-line').is($line) && compareStyles($(prev_node).closest('.smore-wordnode').css(STYLE_ATTRIBUTES), cursor_format)) {
         $(prev_node).after(charTextNode);
         prev_node.parentNode.normalize();
         setCursorTextNode();
@@ -387,7 +387,7 @@ function handle_keypress(keycode) {
   pushWordsDown($line);
 }
 
-function handle_enter_keypress() {
+function handleEnterKeypress() {
   var $word = $(window.cursorTextNode).closest('.smore-wordnode');
   var $para = $word.closest('.smore-paragraph');
 
@@ -450,7 +450,7 @@ function handle_enter_keypress() {
   }
 }
 
-function handle_backspace() {
+function handleBackspace() {
   var $line = $(window.cursorTextNode).closest('.smore-line');
 
   if (window.cursorOffset > 0) { // in the middle of a textNode
@@ -536,13 +536,13 @@ $(document).on('page:change', function() {
     $(document).on('keypress', '#document-editor', function(event) {
       event.preventDefault();
       if (event.which == 13) { // ENTER key
-        handle_enter_keypress();
+        handleEnterKeypress();
       } else if (event.which == 32) { // if SPACE is entered
-        handle_keypress(160); // substitute a nbsp
+        handleKeypress(160); // substitute a nbsp
       } else {
-        handle_keypress(event.which);
+        handleKeypress(event.which);
       }
-      scroll_to_cursor();
+      scrollToCursor();
       saveChanges();
     });
 
@@ -551,29 +551,29 @@ $(document).on('page:change', function() {
       switch (event.which) {
         case 8: // backspace
           event.preventDefault();
-          handle_backspace();
-          scroll_to_cursor();
+          handleBackspace();
+          scrollToCursor();
           saveChanges();
           break;
         case 37: // left
           event.preventDefault();
-          move_cursor_left();
-          scroll_to_cursor();
+          moveCursorLeft();
+          scrollToCursor();
           break;
         case 38: // up
           event.preventDefault();
-          move_cursor_up();
-          scroll_to_cursor();
+          moveCursorUp();
+          scrollToCursor();
           break;
         case 39: // right
           event.preventDefault();
-          move_cursor_right();
-          scroll_to_cursor();
+          moveCursorRight();
+          scrollToCursor();
           break;
         case 40: // down
           event.preventDefault();
-          move_cursor_down();
-          scroll_to_cursor();
+          moveCursorDown();
+          scrollToCursor();
           break;
         default:
           // ignore
@@ -584,29 +584,29 @@ $(document).on('page:change', function() {
     $('#font-fam-select li').click(function() {
       var family = $(this).html();
       $('#font-fam-select button span').html(family);
-      format_selection('font-family', family);
+      formatSelection('font-family', family);
     });
 
     // font-size select
     $('#font-size-select li').click(function() {
       var size = $(this).html();
       $('#font-size-select button span').html(size);
-      format_selection('font-size', (size + 'px'));
+      formatSelection('font-size', (size + 'px'));
     });
 
     // bold
     $('#bold-checkbox').change(function() {
-      format_selection('font-weight', (this.checked ? 'bold' : 'normal'));
+      formatSelection('font-weight', (this.checked ? 'bold' : 'normal'));
     });
 
     // italic
     $('#italic-checkbox').change(function() {
-      format_selection('font-style', (this.checked ? 'italic' : 'normal'));
+      formatSelection('font-style', (this.checked ? 'italic' : 'normal'));
     });
 
     // underline
     $('#underline-checkbox').change(function() {
-      format_selection('text-decoration', (this.checked ? 'underline' : 'none'));
+      formatSelection('text-decoration', (this.checked ? 'underline' : 'none'));
     });
 
     // text-align
@@ -758,7 +758,7 @@ $(document).on('page:change', function() {
   }
 });
 
-function format_selection(property, value) {
+function formatSelection(property, value) {
   var sel = window.getSelection();
   var position = sel.anchorNode.compareDocumentPosition(sel.focusNode);
   if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
@@ -773,7 +773,7 @@ function format_selection(property, value) {
       console.log("Right-to-left selection");
     }
   }
-  //$(getSelectedChars()).css(property, value); // TODO fix
+  //$(getSelectedChars()).css(property, value); // TODO actually implement this
   window.$cursor.css(property, value);
 }
 
@@ -839,7 +839,7 @@ function nextTextNode(node) {
   return textnode;
 }
 
-function move_cursor_left() {
+function moveCursorLeft() {
   var selected_chars = getSelectedChars();
   if (selected_chars.length) {
     // set the cursor here
@@ -859,7 +859,7 @@ function move_cursor_left() {
   }
 }
 
-function move_cursor_right() {
+function moveCursorRight() {
   var selected_chars = getSelectedChars();
   if (selected_chars.length) {
     // set the cursor here
@@ -919,8 +919,8 @@ function nextOfClass($tag, classname) {
   return $next;
 }
 
-function move_cursor_up() {
-  if (getSelectedChars().length) { move_cursor_left(); }
+function moveCursorUp() {
+  if (getSelectedChars().length) { moveCursorLeft(); }
 
   var $curr_line = $(window.cursorTextNode).closest('.smore-line');
   var $prev_line = prevOfClass($curr_line, 'smore-line');
@@ -938,8 +938,8 @@ function move_cursor_up() {
   matchClickToWord($prev_line, {pageX: pos_left})
 }
 
-function move_cursor_down() {
-  if (getSelectedChars().length) { move_cursor_right(); }
+function moveCursorDown() {
+  if (getSelectedChars().length) { moveCursorRight(); }
 
   var $curr_line = $(window.cursorTextNode).closest('.smore-line');
   var $next_line = nextOfClass($curr_line, 'smore-line');
@@ -1033,7 +1033,7 @@ function updateDocument() {
     });
 }
 
-function scroll_to_cursor() {
+function scrollToCursor() {
   var $body = $('body');
   var cursor_top = window.$cursor.offset().top;
   var cursor_bottom = cursor_top + window.$cursor.outerHeight(true);
