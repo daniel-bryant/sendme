@@ -32,7 +32,7 @@ class DocumentsController < ApplicationController
           flash[:success] = 'Document name updated'
           redirect_to edit_document_path(@document)
         end
-        format.json { head :no_content, status: :ok }
+        format.json { head :no_content }
       else
         format.html do
           flash[:danger] = @document.errors.to_a.join(". ")
