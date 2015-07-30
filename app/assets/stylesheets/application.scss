@@ -22,14 +22,4 @@
 @import "font-awesome";
 
 /* local */
-// editor fonts
-@import "fonts";
-// global styles
-@import "global";
-// scoped styles
-@import "activations";
-@import "comments";
-@import "documents";
-@import "posts";
-@import "sessions";
-@import "users";
+@import "*"
