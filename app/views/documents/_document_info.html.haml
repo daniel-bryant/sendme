@@ -11,6 +11,8 @@
           %a{href: '#', data: {toggle: 'modal', target: '#name-edit-modal'}}= @document.name
         - else
           = @document.name
+      %em.small Warning--the editor is still in beta
+      %br
       %em#doc-saved-at.small
     .col-xs-2.doc-info
       = link_to document_path(@document, format: :pdf), class: 'btn btn-primary bottom-tooltip', title: 'Print to pdf' do
