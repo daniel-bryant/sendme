@@ -6,6 +6,18 @@ a {
     color: #333;
   }
 }
+
+.below-form-link {
+  margin-top: 15px;
+  a {
+    color: #eee;
+    &:hover, &:focus {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
+
 /* ---------- Flash Box ---------- */
 #flash-box {
   position: absolute;

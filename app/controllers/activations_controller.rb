@@ -1,4 +1,18 @@
 class ActivationsController < ApplicationController
+  def new
+  end
+
+  def create
+    user = User.find_by(email: params[:activation][:email].downcase)
+    if user && !user.activated?
+      user.create_activation_digest
+      UserMailer.account_activation(user).deliver_now
+    else
+      flash.now[:danger] = 'Email address not found or already activated'
+      render :new
+    end
+  end
+
   def edit
     user = User.find_by(email: params[:email])
     if user && !user.activated? && user.authenticated?(:activation, params[:id])

@@ -1,0 +1,9 @@
+.vertical-center
+  .container
+    .row
+      .col-md-4.col-md-offset-4
+        %h1 Enter your email
+        = form_for :activation, url: activations_path, html: {role: 'form'} do |f|
+          .form-group
+            = f.email_field :email, placeholder: 'Email', class: 'form-control'
+          = f.submit 'Send', class: 'btn btn-large btn-primary'

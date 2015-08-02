@@ -14,3 +14,5 @@
           .form-group
             = f.password_field :password_confirmation, placeholder: 'Re-enter Password', class: 'form-control'
           = f.submit 'Sign up', class: 'btn btn-large btn-primary'
+          .below-form-link
+            = link_to 'need a new activation email?', new_activation_path

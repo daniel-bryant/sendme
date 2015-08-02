@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     delete 'avatar', on: :member
   end
   resources :documents,       only: [:show, :create, :edit, :update, :destroy]
-  resources :activations,     only: [:edit]
+  resources :activations,     only: [:new, :create, :edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :posts,           only: [:new, :create, :show, :edit, :update] do
     resources :comments,      only: [:create]

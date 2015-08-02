@@ -1,8 +1,44 @@
 require 'rails_helper'
 
 RSpec.describe ActivationsController, :type => :controller do
+  let(:user) { FactoryGirl.create(:user, activated: false, activated_at: nil) }
+
+  describe 'GET new' do
+    it 'returns http success' do
+      get :new
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'POST create' do
+    context 'when user is found' do
+      context 'when user is not already activated' do
+        it 'sends the activation email' do
+          expect{ post :create, activation: {email: user.email} }.to change{ActionMailer::Base.deliveries.count}.by(1)
+        end
+      end
+
+      context 'when user is already activated' do
+        before { user.activate }
+
+        it 'renders the :new template' do
+          post :create, activation: {email: user.email}
+          expect(flash.now[:danger]).to eq('Email address not found or already activated')
+          expect(response).to render_template(:new)
+        end
+      end
+    end
+
+    context 'when user is not found' do
+      it 'renders the :new template' do
+        post :create, activation: {email: 'not_found@test.com'}
+        expect(flash.now[:danger]).to eq('Email address not found or already activated')
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+
   describe 'GET edit' do
-    let(:user) { FactoryGirl.create(:user, activated: false, activated_at: nil) }
     let(:email) { user.email }
     let(:id) { user.activation_token }
 
