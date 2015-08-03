@@ -14,3 +14,8 @@
 
 #paperclip gem storage
 public/system/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
