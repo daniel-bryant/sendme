@@ -1,5 +1,6 @@
 %h2= "Hello #{@user.name},"
-
-Welcome to SendMe!
-= link_to 'Click here to activate your account.',
-          edit_activation_url(@user.activation_token, email: @user.email)
+%p
+  Welcome to SendMe!
+%p
+  = link_to 'Click here to activate your account.',
+            edit_activation_url(@user.activation_token, email: @user.email)

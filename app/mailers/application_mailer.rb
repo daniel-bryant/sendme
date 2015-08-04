@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "SendMe <donotreply@sendmeacopy.com>"
+  default from: "SendMe <admin@sendmeacopy.com>"
   layout 'mailer'
 end
