@@ -16,6 +16,12 @@ RSpec.describe ActivationsController, :type => :controller do
         it 'sends the activation email' do
           expect{ post :create, activation: {email: user.email} }.to change{ActionMailer::Base.deliveries.count}.by(1)
         end
+
+        it 'updates the activation_digest' do
+          user.update_attributes(activation_digest: nil)
+          post :create, activation: {email: user.email}
+          expect(user.reload.activation_digest).not_to be_nil
+        end
       end
 
       context 'when user is already activated' do

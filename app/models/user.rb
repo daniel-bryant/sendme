@@ -53,12 +53,17 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
-  def create_activation_digest
-    self.activation_token  = User.new_token
-    self.activation_digest = User.digest(activation_token)
+  def update_activation_digest
+    create_activation_digest
+    save
   end
 
   private
+    def create_activation_digest
+      self.activation_token  = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
+
     def downcase_email
       self.email = email.downcase
     end
