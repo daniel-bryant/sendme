@@ -1,4 +1,4 @@
-# Sendme
+# SendMe
 
 ## Ruby/Rails versions
   
@@ -20,14 +20,28 @@ brew install postgresql
 rake db:setup; rake db:migrate
 ```
 
-## Test suite
+## Running the test suite
 
-## Deployment
+```
+bin/rspec
+```
 
-### Local
+## Deploying to production
+
+With awscli set up
+
+```
+eb deploy
+```
+
+## Running locally
+
+From the root directory
 
 ```
 powder link
 ```
+
+The application is now available at:
 
 [http://sendme.dev/](http://sendme.dev/)
